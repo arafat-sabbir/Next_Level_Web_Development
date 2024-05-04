@@ -32,7 +32,7 @@ const createArray = (param: string): string[] => {
   );
   
   // Function that adds a food item to a food list
-  const addFoodToList = (foodList) => {
+  const addFoodToList =<T extends {name:string,condition:string}>(foodList:T) => {
     const food = "JackFruit";
     return {
       ...foodList,
@@ -41,6 +41,6 @@ const createArray = (param: string): string[] => {
   };
   
   // Example usage of addFoodToList function
-  const foodList1 = addFoodToList({ name: "mango", condition: "fresh" });
+  const foodList1 = addFoodToList<{name:string,condition:string}>({ name: "mango", condition: "fresh" });
   const foodList2 = addFoodToList({ name: "banana", condition: "Semi Fresh" });
   
