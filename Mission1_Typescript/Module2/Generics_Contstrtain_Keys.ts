@@ -19,6 +19,4 @@
     return obj[key];
   };
   const person1 = getValueByKeys(user,"name");
-  console.log(person1);
-
 }
