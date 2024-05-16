@@ -1,0 +1,4 @@
+{
+    "accessibility.signals.debouncePositionChanges": false,
+    "workbench.sideBar.location": "right"
+}
