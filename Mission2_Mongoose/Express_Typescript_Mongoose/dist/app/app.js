@@ -14,11 +14,24 @@ userRouter.post("/create-user", (req, res) => {
     console.log(userData);
     res.json({ success: true, userData });
 });
-app.get("/", (req, res) => {
-    res.send("Hello World!");
+app.get("/", (req, res, next) => {
+    try {
+        res.send(something);
+    }
+    catch (error) {
+        next(error);
+    }
 });
 app.post("/", (req, res) => {
     console.log(req.body);
     res.json("Hello there");
+});
+app.use((error, req, res, next) => {
+    if (error) {
+        res.status(400).json({ message: false, error });
+    }
+});
+app.all("*", (req, res) => {
+    res.status(404).json({ success: false, message: `Route Is Not Found ${req.url}` });
 });
 exports.default = app;
