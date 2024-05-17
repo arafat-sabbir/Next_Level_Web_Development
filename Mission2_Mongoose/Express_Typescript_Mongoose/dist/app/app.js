@@ -7,6 +7,13 @@ const express_1 = __importDefault(require("express"));
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use(express_1.default.text());
+const userRouter = express_1.default.Router();
+app.use("/users", userRouter);
+userRouter.post("/create-user", (req, res) => {
+    const userData = req.body;
+    console.log(userData);
+    res.json({ success: true, userData });
+});
 app.get("/", (req, res) => {
     res.send("Hello World!");
 });
