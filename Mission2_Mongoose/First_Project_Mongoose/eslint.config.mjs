@@ -8,9 +8,9 @@ export default [
       globals: globals.browser,
     },
     rules: {
-      'no-unused-vars': 'error', // Example rule
-      'eqeqeq': 'warn',          // Example rule
-      'semi': ['error', 'always'], // Example rule for semicolons
+      'no-unused-vars': 'error',
+      'eqeqeq': 'warn',
+      'semi': ['error', 'always'],
       // Add your custom rules here
     },
   },
