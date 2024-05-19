@@ -3,6 +3,7 @@ import app from "./app";
 import config from "./app/config";
 
 main().catch((err) => console.log(err));
+// clg
 
 async function main() {
   try {
