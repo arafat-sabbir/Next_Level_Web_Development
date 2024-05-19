@@ -15,8 +15,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
 const app_1 = __importDefault(require("./app"));
 const config_1 = __importDefault(require("./app/config"));
-const PORT = process.env.PORT || 5000;
 main().catch((err) => console.log(err));
+// clg
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
