@@ -2,8 +2,6 @@ import mongoose from "mongoose";
 import app from "./app";
 import config from "./app/config";
 
-const PORT = process.env.PORT || 5000;
-
 main().catch((err) => console.log(err));
 
 async function main() {
