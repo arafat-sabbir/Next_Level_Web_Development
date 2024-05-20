@@ -4,6 +4,9 @@ import config from './app/config';
 
 
 
+import userRoutes from "./app/modules/student/student.route"
+
+
 async function main() {
   try {
     await mongoose.connect(config.database_url as string);
