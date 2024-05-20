@@ -5,6 +5,10 @@ import {
   getSingleStudentFromDb,
 } from './student.service';
 
+const isError = (error: unknown): error is Error => {
+  return error instanceof Error;
+};
+
 const createStudent = async (req: Request, res: Response) => {
   try {
     const { student } = req.body;
@@ -15,10 +19,11 @@ const createStudent = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (error) {
+    const errorMessage = isError(error) ? error.message : 'Unknown error';
     res.status(500).json({
       success: false,
       message: 'Something Went Wrong',
-      data: error,
+      error: errorMessage,
     });
   }
 };
@@ -32,10 +37,11 @@ const getAllStudent = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (error) {
+    const errorMessage = isError(error) ? error.message : 'Unknown error';
     res.status(500).json({
       success: false,
       message: 'Something Went Wrong',
-      data: error,
+      error: errorMessage,
     });
   }
 };
@@ -50,10 +56,11 @@ const getSingleStudent = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (error) {
+    const errorMessage = isError(error) ? error.message : 'Unknown error';
     res.status(500).json({
       success: false,
       message: 'Something Went Wrong',
-      data: error,
+      error: errorMessage,
     });
   }
 };
