@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
-import { createStudentOnDb } from './student.service';
+import { createStudentOnDb, getAllStudentFromDb } from './student.service';
 
 const createStudent = async (req: Request, res: Response) => {
   try {
-    const {student} = req.body;
+    const { student } = req.body;
     const result = await createStudentOnDb(student);
     res.status(200).json({
       success: true,
@@ -19,4 +19,23 @@ const createStudent = async (req: Request, res: Response) => {
   }
 };
 
-export { createStudent };
+const getAllStudent = async (req: Request, res: Response) => {
+  try {
+    const result = await getAllStudentFromDb();
+    res
+      .status(200)
+      .json({
+        success: true,
+        message: 'Students Retrieved Successfully',
+        data: result,
+      });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Something Went Wrong',
+      data: error,
+    });
+  }
+};
+
+export { createStudent,getAllStudent };
