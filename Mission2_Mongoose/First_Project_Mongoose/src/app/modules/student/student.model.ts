@@ -7,7 +7,18 @@ import {
 } from './student.interface';
 
 const userNameSchema = new Schema<UserName>({
-  firstName: { type: String, required: [true, 'First Name is required'] },
+  firstName: {
+    type: String,
+    required: [true, 'First Name is required'],
+    trim: true,
+    maxlength: [20,"first name can't be More Than 20 character long"],
+    validate: {validator:function (value: string) {
+      const rightValue = value.charAt(0).toUpperCase() + value.slice(1);
+      return value === rightValue;
+    },
+  message:"{VALUE} Is Not On Capitalize Format"
+  }
+  },
   middleName: { type: String, required: [true, 'Middle Name is required'] },
   lastName: { type: String, required: [true, 'Last Name is required'] },
 });
