@@ -47,5 +47,4 @@ const studentSchema = new Schema<Student>({
   isActive: { type: String, enum: ['active', 'blocked'] },
 });
 
-export const studentModel = model<Student>('Student', studentSchema);
-
+export const StudentModel = model<Student>('Student', studentSchema);
