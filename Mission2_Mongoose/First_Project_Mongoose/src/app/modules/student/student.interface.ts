@@ -1,19 +1,37 @@
+export type Guardian = {
+  fatherName: string;
+  fatherOccupation: string;
+  fatherContactNo: string;
+  motherName: string;
+  motherOccupation: string;
+  motherContactNo: string;
+};
+export type LocalGuardian = {
+  name: string;
+  occupation: string;
+  contactNo: string;
+  presentAddress: string;
+};
+
+export type UserName = {
+  firstName: string;
+  middleName?: string;
+  lastName?: string;
+};
+
 export type Student = {
-  name: {
-    firstName: string;
-    middleName?: string;
-    lastName?: string;
-  };
+  id:string;
+  name: UserName;
   gender: 'male' | 'female' | 'others';
-  dateOfBirth: number;
+  dateOfBirth: string;
   contactNo: string;
   email: string;
   emergencyContactNumber: string;
-  BloodGroup: 'A+' | 'A-' | 'B+' | 'B-' | 'AB+' | 'AB-' | 'O+' | 'O-';
+  bloodGroup: 'A+' | 'A-' | 'B+' | 'B-' | 'AB+' | 'AB-' | 'O+' | 'O-';
   presentAddress: string;
   permanentAddress: string;
-  guardian: {
-    fatherName: string;
-    
-  };
+  guardian: Guardian;
+  localGuardian: LocalGuardian;
+  profileImage?:string;
+  isActive:"active"|"blocked"
 };
