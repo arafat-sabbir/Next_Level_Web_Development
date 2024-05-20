@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose';
-import validator from 'validator';
+// import validator from 'validator';
 import {
   Guardian,
   LocalGuardian,
@@ -13,22 +13,22 @@ const userNameSchema = new Schema<UserName>({
     required: [true, 'First Name is required'],
     trim: true,
     maxlength: [20, "first name can't be More Than 20 character long"],
-    validate: {
-      validator: function (value: string) {
-        const rightValue = value.charAt(0).toUpperCase() + value.slice(1);
-        return value === rightValue;
-      },
-      message: '{VALUE} Is Not On Capitalize Format',
-    },
+    // validate: {
+    //   validator: function (value: string) {
+    //     const rightValue = value.charAt(0).toUpperCase() + value.slice(1);
+    //     return value === rightValue;
+    //   },
+    //   message: '{VALUE} Is Not On Capitalize Format',
+    // },
   },
   middleName: { type: String, required: [true, 'Middle Name is required'] },
   lastName: {
     type: String,
     required: [true, 'Last Name is required'],
-    validate: {
-      validator: (value: string) => validator.isAlpha(value),
-      message: '{VALUE} is Not Valid',
-    },
+    // validate: {
+    //   validator: (value: string) => validator.isAlpha(value),
+    //   message: '{VALUE} is Not Valid',
+    // },
   },
 });
 
@@ -79,10 +79,10 @@ const studentSchema = new Schema<Student>({
     type: String,
     required: [true, 'Email is required'],
     unique: true,
-    validate: {
-      validator: (value: string) => validator.isEmail(value),
-      message: '{VALUE} Is Not A Valid Email Type',
-    },
+    // validate: {
+    //   validator: (value: string) => validator.isEmail(value),
+    //   message: '{VALUE} Is Not A Valid Email Type',
+    // },
   },
   contactNo: { type: String, required: [true, 'Contact Number is required'] },
   emergencyContactNumber: {
