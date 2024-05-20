@@ -4,6 +4,7 @@ import {
   getAllStudentFromDb,
   getSingleStudentFromDb,
 } from './student.service';
+import studentValidationSchema from './student.validation';
 
 const isError = (error: unknown): error is Error => {
   return error instanceof Error;
@@ -12,6 +13,14 @@ const isError = (error: unknown): error is Error => {
 const createStudent = async (req: Request, res: Response) => {
   try {
     const { student } = req.body;
+    const { error, value } = studentValidationSchema.validate(student);
+    if (error) {
+      return res.status(500).json({
+        success: false,
+        message: 'Something Went Wrong',
+        error: error.details[0].message,
+      });
+    }
     const result = await createStudentOnDb(student);
     res.status(200).json({
       success: true,
