@@ -5,4 +5,4 @@ const router = express.Router();
 
 router.post('/create-student', createStudent);
 
-export default router;
+export const studentRoute = router;

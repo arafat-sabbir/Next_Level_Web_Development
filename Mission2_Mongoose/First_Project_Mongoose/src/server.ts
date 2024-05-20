@@ -4,7 +4,6 @@ import config from './app/config';
 
 
 
-import userRoutes from "./app/modules/student/student.route"
 
 
 async function main() {
