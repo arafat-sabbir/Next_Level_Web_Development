@@ -119,6 +119,7 @@ const studentSchema = new Schema<Student>({
     required: [true, 'Status is required'],
     default: 'active',
   },
+  isDeleted: { type: Boolean, required: true, default: false },
 });
 
 studentSchema.pre('save', async function (next) {
@@ -133,6 +134,21 @@ studentSchema.pre('save', async function (next) {
 
 studentSchema.post('save', function (doc, next) {
   doc.password = '';
+  next();
+});
+
+studentSchema.pre('find', function (next) {
+  this.find({ isDeleted: { $ne: true } });
+  next();
+});
+
+studentSchema.pre('findOne', function (next) {
+  this.findOne({ isDeleted: { $ne: true } });
+  next();
+});
+
+studentSchema.pre('aggregate', function (next) {
+  this.pipeline().unshift({ $match: { isDeleted: { $ne: true } } });
   next();
 });
 

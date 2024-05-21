@@ -2,7 +2,8 @@ import { z } from 'zod';
 
 // Define UserName Zod schema
 const userNameZodValidationSchema = z.object({
-  firstName: z.string()
+  firstName: z
+    .string()
     .max(20, "First name can't be more than 20 characters long")
     .nonempty('First Name is required')
     .trim(),
@@ -24,26 +25,40 @@ const guardianZodValidationSchema = z.object({
 const localGuardianZodValidationSchema = z.object({
   name: z.string().nonempty('Local Guardian Name is required'),
   occupation: z.string().nonempty('Local Guardian Occupation is required'),
-  presentAddress: z.string().nonempty('Local Guardian Present Address is required'),
+  presentAddress: z
+    .string()
+    .nonempty('Local Guardian Present Address is required'),
 });
 
 // Define Student Zod schema
 const studentZodValidationSchema = z.object({
   id: z.string().optional(), // Optional field,
-  password:z.string().nonempty("Password Is Required"),
+  password: z.string().nonempty('Password Is Required'),
   name: userNameZodValidationSchema,
   dateOfBirth: z.string().nonempty('Date of Birth is required'),
-  gender: z.enum(['male', 'female', 'others'], { required_error: 'Gender is required' }),
-  email: z.string().email('Invalid email address').nonempty('Email is required'),
+  gender: z.enum(['male', 'female', 'others'], {
+    required_error: 'Gender is required',
+  }),
+  email: z
+    .string()
+    .email('Invalid email address')
+    .nonempty('Email is required'),
   contactNo: z.string().nonempty('Contact Number is required'),
-  emergencyContactNumber: z.string().nonempty('Emergency Contact Number is required'),
-  bloodGroup: z.enum(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']).optional(),
+  emergencyContactNumber: z
+    .string()
+    .nonempty('Emergency Contact Number is required'),
+  bloodGroup: z
+    .enum(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'])
+    .optional(),
   presentAddress: z.string().nonempty('Present Address is required'),
   permanentAddress: z.string().nonempty('Permanent Address is required'),
   guardian: guardianZodValidationSchema,
   localGuardian: localGuardianZodValidationSchema,
   profileImage: z.string().optional(),
-  isActive: z.enum(['active', 'blocked'], { required_error: 'Status is required' }).default('active'),
+  isActive: z
+    .enum(['active', 'blocked'], { required_error: 'Status is required' })
+    .default('active'),
+  isDeleted: z.boolean().default(false),
 });
 
 export { studentZodValidationSchema };
