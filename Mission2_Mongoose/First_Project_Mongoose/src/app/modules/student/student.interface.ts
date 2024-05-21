@@ -1,3 +1,5 @@
+import { Model } from "mongoose";
+
 export interface UserName {
   firstName: string;
   middleName: string;
@@ -21,6 +23,7 @@ export interface LocalGuardian {
 
 export interface Student {
   id?: string; // Make id optional
+  password:string;
   name: UserName;
   dateOfBirth: string;
   gender: 'male' | 'female' | 'others';
@@ -35,3 +38,8 @@ export interface Student {
   profileImage?: string;
   isActive: 'active' | 'blocked';
 }
+
+type StudentMethods = {
+  isUserExists(id: string): Promise<Student>;
+};
+export type StudentModel = Model<Student, Record<string, never>, StudentMethods>;

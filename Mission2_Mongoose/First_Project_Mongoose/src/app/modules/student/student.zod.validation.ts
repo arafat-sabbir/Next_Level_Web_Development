@@ -29,7 +29,8 @@ const localGuardianZodValidationSchema = z.object({
 
 // Define Student Zod schema
 const studentZodValidationSchema = z.object({
-  id: z.string().optional(), // Optional field
+  id: z.string().optional(), // Optional field,
+  password:z.string().nonempty("Password Is Required"),
   name: userNameZodValidationSchema,
   dateOfBirth: z.string().nonempty('Date of Birth is required'),
   gender: z.enum(['male', 'female', 'others'], { required_error: 'Gender is required' }),
