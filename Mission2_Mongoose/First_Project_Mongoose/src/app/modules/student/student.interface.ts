@@ -1,37 +1,37 @@
-export type Guardian = {
+export interface UserName {
+  firstName: string;
+  middleName: string;
+  lastName: string;
+}
+
+export interface Guardian {
   fatherName: string;
   fatherOccupation: string;
   fatherContactNo: string;
   motherName: string;
   motherOccupation: string;
   motherContactNo: string;
-};
-export type LocalGuardian = {
+}
+
+export interface LocalGuardian {
   name: string;
   occupation: string;
-  contactNo: string;
   presentAddress: string;
-};
+}
 
-export type UserName = {
-  firstName: string;
-  middleName?: string;
-  lastName?: string;
-};
-
-export type Student = {
-  id: string;
+export interface Student {
+  id?: string; // Make id optional
   name: UserName;
-  gender: 'male' | 'female' | 'others';
   dateOfBirth: string;
-  contactNo: string;
+  gender: 'male' | 'female' | 'others';
   email: string;
+  contactNo: string;
   emergencyContactNumber: string;
-  bloodGroup: 'A+' | 'A-' | 'B+' | 'B-' | 'AB+' | 'AB-' | 'O+' | 'O-';
+  bloodGroup?: 'A+' | 'A-' | 'B+' | 'B-' | 'AB+' | 'AB-' | 'O+' | 'O-'; // Make bloodGroup optional
   presentAddress: string;
   permanentAddress: string;
   guardian: Guardian;
   localGuardian: LocalGuardian;
   profileImage?: string;
   isActive: 'active' | 'blocked';
-};
+}

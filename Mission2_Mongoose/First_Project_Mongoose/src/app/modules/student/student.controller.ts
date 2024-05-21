@@ -1,10 +1,13 @@
 import { Request, Response } from 'express';
+import { z } from 'zod';
 import {
   createStudentOnDb,
   getAllStudentFromDb,
   getSingleStudentFromDb,
 } from './student.service';
-import studentValidationSchema from './student.validation';
+import studentValidationSchema from './student.joi.validation';
+import { Student } from './student.interface';
+import { studentZodValidationSchema } from './student.zod.validation';
 
 const isError = (error: unknown): error is Error => {
   return error instanceof Error;
@@ -13,15 +16,18 @@ const isError = (error: unknown): error is Error => {
 const createStudent = async (req: Request, res: Response) => {
   try {
     const { student } = req.body;
-    const { error, value } = studentValidationSchema.validate(student);
-    if (error) {
-      return res.status(500).json({
-        success: false,
-        message: 'Something Went Wrong',
-        error: error.details[0].message,
-      });
-    }
-    const result = await createStudentOnDb(student);
+    // const { error, value } = studentValidationSchema.validate(student); validation using joi
+    // validation using jod
+    const zodParsedData = studentZodValidationSchema.parse(student);
+
+    // if (error) {
+    //   return res.status(500).json({
+    //     success: false,
+    //     message: 'Something Went Wrong',
+    //     error: error.details[0].message,
+    //   });
+    // }
+    const result = await createStudentOnDb(zodParsedData);
     res.status(200).json({
       success: true,
       message: 'Student Created Successfully',
