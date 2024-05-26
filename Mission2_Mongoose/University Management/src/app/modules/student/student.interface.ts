@@ -43,8 +43,4 @@ export interface Student {
 type StudentMethods = {
   isUserExists(id: string): Promise<Student>;
 };
-export type StudentModel = Model<
-  Student,
-  Record<string, never>,
-  StudentMethods
->;
+export type StudentModel = Model<Student, Record<string, never>, StudentMethods>;

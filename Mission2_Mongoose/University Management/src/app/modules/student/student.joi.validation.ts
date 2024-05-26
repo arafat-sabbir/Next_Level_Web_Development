@@ -77,21 +77,15 @@ const studentValidationSchema = Joi.object({
     'string.base': 'Date of Birth must be a string',
     'string.empty': 'Date of Birth is required',
   }),
-  gender: Joi.string()
-    .valid('male', 'female', 'others')
-    .required()
-    .messages({
-      'any.only': '{#label} is not valid',
-      'string.empty': 'Gender is required',
-    }),
-  email: Joi.string()
-    .email()
-    .required()
-    .messages({
-      'string.base': 'Email must be a string',
-      'string.empty': 'Email is required',
-      'string.email': '{#label} is not a valid email type',
-    }),
+  gender: Joi.string().valid('male', 'female', 'others').required().messages({
+    'any.only': '{#label} is not valid',
+    'string.empty': 'Gender is required',
+  }),
+  email: Joi.string().email().required().messages({
+    'string.base': 'Email must be a string',
+    'string.empty': 'Email is required',
+    'string.email': '{#label} is not a valid email type',
+  }),
   contactNo: Joi.string().required().messages({
     'string.base': 'Contact Number must be a string',
     'string.empty': 'Contact Number is required',
@@ -100,9 +94,7 @@ const studentValidationSchema = Joi.object({
     'string.base': 'Emergency Contact Number must be a string',
     'string.empty': 'Emergency Contact Number is required',
   }),
-  bloodGroup: Joi.string()
-    .valid('A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-')
-    .optional(),
+  bloodGroup: Joi.string().valid('A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-').optional(),
   presentAddress: Joi.string().required().messages({
     'string.base': 'Present Address must be a string',
     'string.empty': 'Present Address is required',
@@ -118,14 +110,10 @@ const studentValidationSchema = Joi.object({
     'object.base': 'Local Guardian information is required',
   }),
   profileImage: Joi.string().optional(),
-  isActive: Joi.string()
-    .valid('active', 'blocked')
-    .required()
-    .default('active')
-    .messages({
-      'any.only': '{#label} is not valid',
-      'string.empty': 'Status is required',
-    }),
+  isActive: Joi.string().valid('active', 'blocked').required().default('active').messages({
+    'any.only': '{#label} is not valid',
+    'string.empty': 'Status is required',
+  }),
 });
 
 export default studentValidationSchema;

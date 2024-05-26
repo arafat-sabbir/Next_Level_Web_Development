@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import {
-  createStudentOnDb,
   deleteSingleStudentFromDb,
   getAllStudentFromDb,
   getSingleStudentFromDb,
@@ -11,35 +10,6 @@ const isError = (error: unknown): error is Error => {
   return error instanceof Error;
 };
 
-const createStudent = async (req: Request, res: Response) => {
-  try {
-    const { student } = req.body;
-    // const { error, value } = studentValidationSchema.validate(student); validation using joi
-    // validation using jod
-    const zodParsedData = studentZodValidationSchema.parse(student);
-
-    // if (error) {
-    //   return res.status(500).json({
-    //     success: false,
-    //     message: 'Something Went Wrong',
-    //     error: error.details[0].message,
-    //   });
-    // }
-    const result = await createStudentOnDb(zodParsedData);
-    res.status(200).json({
-      success: true,
-      message: 'Student Created Successfully',
-      data: result,
-    });
-  } catch (error) {
-    const errorMessage = isError(error) ? error.message : 'Unknown error';
-    res.status(500).json({
-      success: false,
-      message: 'Something Went Wrong',
-      error: errorMessage,
-    });
-  }
-};
 
 const getAllStudent = async (req: Request, res: Response) => {
   try {
@@ -96,4 +66,4 @@ const deleteSingleStudent = async (req: Request, res: Response) => {
   }
 };
 
-export { createStudent, getAllStudent, getSingleStudent, deleteSingleStudent };
+export { getAllStudent, getSingleStudent, deleteSingleStudent };

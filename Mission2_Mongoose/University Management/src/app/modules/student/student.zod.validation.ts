@@ -25,9 +25,7 @@ const guardianZodValidationSchema = z.object({
 const localGuardianZodValidationSchema = z.object({
   name: z.string().nonempty('Local Guardian Name is required'),
   occupation: z.string().nonempty('Local Guardian Occupation is required'),
-  presentAddress: z
-    .string()
-    .nonempty('Local Guardian Present Address is required'),
+  presentAddress: z.string().nonempty('Local Guardian Present Address is required'),
 });
 
 // Define Student Zod schema
@@ -39,17 +37,10 @@ const studentZodValidationSchema = z.object({
   gender: z.enum(['male', 'female', 'others'], {
     required_error: 'Gender is required',
   }),
-  email: z
-    .string()
-    .email('Invalid email address')
-    .nonempty('Email is required'),
+  email: z.string().email('Invalid email address').nonempty('Email is required'),
   contactNo: z.string().nonempty('Contact Number is required'),
-  emergencyContactNumber: z
-    .string()
-    .nonempty('Emergency Contact Number is required'),
-  bloodGroup: z
-    .enum(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'])
-    .optional(),
+  emergencyContactNumber: z.string().nonempty('Emergency Contact Number is required'),
+  bloodGroup: z.enum(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']).optional(),
   presentAddress: z.string().nonempty('Present Address is required'),
   permanentAddress: z.string().nonempty('Permanent Address is required'),
   guardian: guardianZodValidationSchema,
