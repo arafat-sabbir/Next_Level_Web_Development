@@ -1,8 +1,8 @@
-import { NextFunction, Request, Response } from 'express'; // Ensure this import exists
+import { NextFunction, Request, RequestHandler, Response } from 'express'; // Ensure this import exists
 import { userService } from './user.service';
 import sendResponse from '../../../app/utils/sendResponse';
 
-const createNewStudent = async (req: Request, res: Response, next: NextFunction) => {
+const createNewStudent: RequestHandler = async (req, res, next) => {
   try {
     const { password, student: studentData } = req.body;
 

@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from 'express';
+import { RequestHandler } from 'express';
 import {
   deleteSingleStudentFromDb,
   getAllStudentFromDb,
@@ -6,7 +6,7 @@ import {
 } from './student.service';
 import sendResponse from '../../utils/sendResponse';
 
-const getAllStudent = async (req: Request, res: Response, next: NextFunction) => {
+const getAllStudent: RequestHandler = async (req, res, next) => {
   try {
     const result = await getAllStudentFromDb();
     sendResponse(res, { message: 'Students Retrieved Successfully', data: result });
@@ -15,7 +15,7 @@ const getAllStudent = async (req: Request, res: Response, next: NextFunction) =>
   }
 };
 
-const getSingleStudent = async (req: Request, res: Response, next: NextFunction) => {
+const getSingleStudent: RequestHandler = async (req, res, next) => {
   try {
     const { id } = req.params;
     const result = await getSingleStudentFromDb(id);
@@ -24,7 +24,7 @@ const getSingleStudent = async (req: Request, res: Response, next: NextFunction)
     next(error);
   }
 };
-const deleteSingleStudent = async (req: Request, res: Response, next: NextFunction) => {
+const deleteSingleStudent: RequestHandler = async (req, res, next) => {
   try {
     const { id } = req.params;
     const result = await deleteSingleStudentFromDb(id);
