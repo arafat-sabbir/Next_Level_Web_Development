@@ -1,33 +1,23 @@
+import { Request, Response } from 'express'; // Ensure this import exists
 import { userService } from './user.service';
-import { userValidation } from './user.validation';
 
-const createNewUser = async (req: Request, res: Response) => {
+const createNewStudent = async (req: Request, res: Response) => {
   try {
-    const { user } = req.body;
-    // const { error, value } = studentValidationSchema.validate(student); validation using joi
-    // validation using jod
-    const zodParsedData = userValidation.userValidationSchema.parse(user);
+    const { password, student: studentData } = req.body;
 
-    // if (error) {
-    //   return res.status(500).json({
-    //     success: false,
-    //     message: 'Something Went Wrong',
-    //     error: error.details[0].message,
-    //   });
-    // }
-    const result = await userService.createUserOnDb(zodParsedData);
+    const result = await userService.createStudentOnDb(password, studentData);
     res.status(200).json({
       success: true,
       message: 'Student Created Successfully',
       data: result,
     });
-  } catch (error) {
-    const errorMessage = isError(error) ? error.message : 'Unknown error';
+  } catch (error: any) {
     res.status(500).json({
       success: false,
       message: 'Something Went Wrong',
-      error: errorMessage,
+      error: error.message || error,
     });
   }
 };
-export { createNewUser };
+
+export const userControllers = { createNewStudent };

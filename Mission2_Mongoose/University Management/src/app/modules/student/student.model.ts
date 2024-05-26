@@ -1,10 +1,10 @@
 import { Schema, model } from 'mongoose';
 import bcrypt from 'bcrypt';
 // import validator from 'validator';
-import { Guardian, LocalGuardian, Student, UserName } from './student.interface';
 import config from '../../config';
+import { TGuardian, TLocalGuardian, TStudent, TUserName } from './student.interface';
 
-const userNameSchema = new Schema<UserName>({
+const userNameSchema = new Schema<TUserName>({
   firstName: {
     type: String,
     required: [true, 'First Name is required'],
@@ -22,7 +22,7 @@ const userNameSchema = new Schema<UserName>({
   },
 });
 
-const guardianSchema = new Schema<Guardian>({
+const guardianSchema = new Schema<TGuardian>({
   fatherName: { type: String, required: [true, 'Father Name is required'] },
   fatherOccupation: {
     type: String,
@@ -43,7 +43,7 @@ const guardianSchema = new Schema<Guardian>({
   },
 });
 
-const localGuardianSchema = new Schema<LocalGuardian>({
+const localGuardianSchema = new Schema<TLocalGuardian>({
   name: { type: String, required: [true, 'Local Guardian Name is required'] },
   occupation: {
     type: String,
@@ -55,9 +55,15 @@ const localGuardianSchema = new Schema<LocalGuardian>({
   },
 });
 
-const studentSchema = new Schema<Student>(
+const studentSchema = new Schema<TStudent>(
   {
     id: { type: String, unique: true },
+    user: {
+      type: Schema.Types.ObjectId,
+      required: [true, 'User id Is Required'],
+      unique: true,
+      ref: 'User',
+    },
     password: { type: String, required: true },
     name: {
       type: userNameSchema,
@@ -108,18 +114,13 @@ const studentSchema = new Schema<Student>(
       required: [true, 'Local Guardian information is required'],
     },
     profileImage: { type: String },
-    isActive: {
-      type: String,
-      enum: ['active', 'blocked'],
-      required: [true, 'Status is required'],
-      default: 'active',
-    },
     isDeleted: { type: Boolean, required: true, default: false },
   },
   {
     toJSON: {
       virtuals: true,
     },
+    timestamps: true,
   }
 );
 
@@ -154,4 +155,4 @@ studentSchema.virtual('fullName').get(function () {
   return `${this.name.firstName} ${this.name.middleName} ${this.name.lastName} `;
 });
 
-export const StudentModel = model<Student>('Student', studentSchema);
+export const StudentModel = model<TStudent>('Student', studentSchema);
