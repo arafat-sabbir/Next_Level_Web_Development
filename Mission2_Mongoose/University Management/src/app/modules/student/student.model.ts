@@ -1,7 +1,4 @@
 import { Schema, model } from 'mongoose';
-import bcrypt from 'bcrypt';
-// import validator from 'validator';
-import config from '../../config';
 import { TGuardian, TLocalGuardian, TStudent, TUserName } from './student.interface';
 
 const userNameSchema = new Schema<TUserName>({
@@ -64,11 +61,6 @@ const studentSchema = new Schema<TStudent>(
       unique: true,
       ref: 'User',
     },
-    password: { type: String, required: true },
-    name: {
-      type: userNameSchema,
-      required: [true, 'Student Name is required'],
-    },
     dateOfBirth: {
       type: String,
       required: [true, 'Date of Birth is required'],
@@ -124,17 +116,7 @@ const studentSchema = new Schema<TStudent>(
   }
 );
 
-studentSchema.pre('save', async function (next) {
-  const user = this;
-  console.log(this);
-  user.password = await bcrypt.hash(user.password, Number(config.bcrypt_solt_round));
-  next();
-});
 
-studentSchema.post('save', function (doc, next) {
-  doc.password = '';
-  next();
-});
 
 studentSchema.pre('find', function (next) {
   this.find({ isDeleted: { $ne: true } });
@@ -151,8 +133,8 @@ studentSchema.pre('aggregate', function (next) {
   next();
 });
 
-studentSchema.virtual('fullName').get(function () {
-  return `${this.name.firstName} ${this.name.middleName} ${this.name.lastName} `;
-});
+// studentSchema.virtual('fullName').get(function () {
+//   return `${this.name.firstName} ${this.name.middleName} ${this.name.lastName} `;
+// });
 
 export const StudentModel = model<TStudent>('Student', studentSchema);

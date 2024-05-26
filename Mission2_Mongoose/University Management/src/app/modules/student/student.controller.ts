@@ -1,17 +1,11 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import {
   deleteSingleStudentFromDb,
   getAllStudentFromDb,
   getSingleStudentFromDb,
 } from './student.service';
-import { studentZodValidationSchema } from './student.zod.validation';
 
-const isError = (error: unknown): error is Error => {
-  return error instanceof Error;
-};
-
-
-const getAllStudent = async (req: Request, res: Response) => {
+const getAllStudent = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const result = await getAllStudentFromDb();
     res.status(200).json({
@@ -20,16 +14,11 @@ const getAllStudent = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (error) {
-    const errorMessage = isError(error) ? error.message : 'Unknown error';
-    res.status(500).json({
-      success: false,
-      message: 'Something Went Wrong',
-      error: errorMessage,
-    });
+    next(error);
   }
 };
 
-const getSingleStudent = async (req: Request, res: Response) => {
+const getSingleStudent = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params;
     const result = await getSingleStudentFromDb(id);
@@ -39,15 +28,10 @@ const getSingleStudent = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (error) {
-    const errorMessage = isError(error) ? error.message : 'Unknown error';
-    res.status(500).json({
-      success: false,
-      message: 'Something Went Wrong',
-      error: errorMessage,
-    });
+    next(error);
   }
 };
-const deleteSingleStudent = async (req: Request, res: Response) => {
+const deleteSingleStudent = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params;
     const result = await deleteSingleStudentFromDb(id);
@@ -57,12 +41,7 @@ const deleteSingleStudent = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (error) {
-    const errorMessage = isError(error) ? error.message : 'Unknown error';
-    res.status(500).json({
-      success: false,
-      message: 'Something Went Wrong',
-      error: errorMessage,
-    });
+    next(error);
   }
 };
 

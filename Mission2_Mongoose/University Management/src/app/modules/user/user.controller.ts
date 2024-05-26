@@ -1,7 +1,7 @@
-import { Request, Response } from 'express'; // Ensure this import exists
+import { NextFunction, Request, Response } from 'express'; // Ensure this import exists
 import { userService } from './user.service';
 
-const createNewStudent = async (req: Request, res: Response) => {
+const createNewStudent = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { password, student: studentData } = req.body;
 
@@ -11,12 +11,8 @@ const createNewStudent = async (req: Request, res: Response) => {
       message: 'Student Created Successfully',
       data: result,
     });
-  } catch (error: any) {
-    res.status(500).json({
-      success: false,
-      message: 'Something Went Wrong',
-      error: error.message || error,
-    });
+  } catch (error) {
+    next(error);
   }
 };
 

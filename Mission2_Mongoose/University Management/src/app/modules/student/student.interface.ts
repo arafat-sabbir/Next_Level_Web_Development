@@ -24,7 +24,6 @@ export interface TLocalGuardian {
 export interface TStudent {
   id?: string; // Make id optional
   user:Types.ObjectId;
-  password: string;
   name: TUserName;
   dateOfBirth: string;
   gender: 'male' | 'female' | 'others';

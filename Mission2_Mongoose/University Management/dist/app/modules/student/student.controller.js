@@ -11,10 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteSingleStudent = exports.getSingleStudent = exports.getAllStudent = void 0;
 const student_service_1 = require("./student.service");
-const isError = (error) => {
-    return error instanceof Error;
-};
-const getAllStudent = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getAllStudent = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield (0, student_service_1.getAllStudentFromDb)();
         res.status(200).json({
@@ -24,16 +21,11 @@ const getAllStudent = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         });
     }
     catch (error) {
-        const errorMessage = isError(error) ? error.message : 'Unknown error';
-        res.status(500).json({
-            success: false,
-            message: 'Something Went Wrong',
-            error: errorMessage,
-        });
+        next(error);
     }
 });
 exports.getAllStudent = getAllStudent;
-const getSingleStudent = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getSingleStudent = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
         const result = yield (0, student_service_1.getSingleStudentFromDb)(id);
@@ -44,16 +36,11 @@ const getSingleStudent = (req, res) => __awaiter(void 0, void 0, void 0, functio
         });
     }
     catch (error) {
-        const errorMessage = isError(error) ? error.message : 'Unknown error';
-        res.status(500).json({
-            success: false,
-            message: 'Something Went Wrong',
-            error: errorMessage,
-        });
+        next(error);
     }
 });
 exports.getSingleStudent = getSingleStudent;
-const deleteSingleStudent = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const deleteSingleStudent = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
         const result = yield (0, student_service_1.deleteSingleStudentFromDb)(id);
@@ -64,12 +51,7 @@ const deleteSingleStudent = (req, res) => __awaiter(void 0, void 0, void 0, func
         });
     }
     catch (error) {
-        const errorMessage = isError(error) ? error.message : 'Unknown error';
-        res.status(500).json({
-            success: false,
-            message: 'Something Went Wrong',
-            error: errorMessage,
-        });
+        next(error);
     }
 });
 exports.deleteSingleStudent = deleteSingleStudent;

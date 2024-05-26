@@ -8,6 +8,7 @@ const app = (0, express_1.default)();
 const cors_1 = __importDefault(require("cors"));
 const student_route_1 = require("./app/modules/student/student.route");
 const user_route_1 = require("./app/modules/user/user.route");
+const globalErrorHandler_1 = __importDefault(require("./app/middlewares/globalErrorHandler"));
 // routes
 app.use(express_1.default.json());
 app.use((0, cors_1.default)());
@@ -17,11 +18,7 @@ app.use('/api/v1/users', user_route_1.userRoutes);
 app.get('/', (req, res) => {
     res.send('Hello NewBie!');
 });
-app.use((error, req, res, next) => {
-    if (error) {
-        res.status(400).json({ message: false, error });
-    }
-});
+app.use(globalErrorHandler_1.default);
 app.all('*', (req, res) => {
     res.status(404).json({ success: false, message: `Route Is Not Found ${req.url}` });
 });
