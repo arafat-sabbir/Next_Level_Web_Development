@@ -8,18 +8,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.userControllers = void 0;
 const user_service_1 = require("./user.service");
+const sendResponse_1 = __importDefault(require("../../../app/utils/sendResponse"));
 const createNewStudent = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { password, student: studentData } = req.body;
         const result = yield user_service_1.userService.createStudentOnDb(password, studentData);
-        res.status(200).json({
-            success: true,
-            message: 'Student Created Successfully',
-            data: result,
-        });
+        (0, sendResponse_1.default)(res, { message: 'Student Created Successfully', data: result });
     }
     catch (error) {
         next(error);

@@ -6,15 +6,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const app = (0, express_1.default)();
 const cors_1 = __importDefault(require("cors"));
-const student_route_1 = require("./app/modules/student/student.route");
-const user_route_1 = require("./app/modules/user/user.route");
 const globalErrorHandler_1 = __importDefault(require("./app/middlewares/globalErrorHandler"));
-// routes
+const index_1 = __importDefault(require("./app/routes/index"));
 app.use(express_1.default.json());
 app.use((0, cors_1.default)());
-// use routes
-app.use('/api/v1/students', student_route_1.studentRoutes);
-app.use('/api/v1/users', user_route_1.userRoutes);
+// use All The Routes From Routes
+app.use('/api/v1', index_1.default);
 app.get('/', (req, res) => {
     res.send('Hello NewBie!');
 });
