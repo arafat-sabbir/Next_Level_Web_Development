@@ -116,4 +116,4 @@ const studentValidationSchema = joi_1.default.object({
         'string.empty': 'Status is required',
     }),
 });
-exports.default = studentValidationSchema;
+// export default studentValidationSchema;

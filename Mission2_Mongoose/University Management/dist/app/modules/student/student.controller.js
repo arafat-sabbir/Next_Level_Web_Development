@@ -15,7 +15,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteSingleStudent = exports.getSingleStudent = exports.getAllStudent = void 0;
 const student_service_1 = require("./student.service");
 const sendResponse_1 = __importDefault(require("../../utils/sendResponse"));
-const getAllStudent = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
+const getAllStudent = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield (0, student_service_1.getAllStudentFromDb)();
         (0, sendResponse_1.default)(res, { message: 'Students Retrieved Successfully', data: result });
@@ -23,9 +24,9 @@ const getAllStudent = (req, res, next) => __awaiter(void 0, void 0, void 0, func
     catch (error) {
         next(error);
     }
-});
+}));
 exports.getAllStudent = getAllStudent;
-const getSingleStudent = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const getSingleStudent = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
         const result = yield (0, student_service_1.getSingleStudentFromDb)(id);
@@ -34,9 +35,9 @@ const getSingleStudent = (req, res, next) => __awaiter(void 0, void 0, void 0, f
     catch (error) {
         next(error);
     }
-});
+}));
 exports.getSingleStudent = getSingleStudent;
-const deleteSingleStudent = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const deleteSingleStudent = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
         const result = yield (0, student_service_1.deleteSingleStudentFromDb)(id);
@@ -45,5 +46,5 @@ const deleteSingleStudent = (req, res, next) => __awaiter(void 0, void 0, void 0
     catch (error) {
         next(error);
     }
-});
+}));
 exports.deleteSingleStudent = deleteSingleStudent;

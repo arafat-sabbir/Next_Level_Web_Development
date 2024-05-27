@@ -1,9 +1,5 @@
 import express from 'express';
-import {
-  deleteSingleStudent,
-  getAllStudent,
-  getSingleStudent,
-} from './student.controller';
+import { deleteSingleStudent, getAllStudent, getSingleStudent } from './student.controller';
 
 const router = express.Router();
 

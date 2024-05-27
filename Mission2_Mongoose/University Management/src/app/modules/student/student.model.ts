@@ -116,8 +116,6 @@ const studentSchema = new Schema<TStudent>(
   }
 );
 
-
-
 studentSchema.pre('find', function (next) {
   this.find({ isDeleted: { $ne: true } });
   next();

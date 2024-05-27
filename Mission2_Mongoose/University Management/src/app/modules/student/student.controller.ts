@@ -4,7 +4,7 @@ import {
   getSingleStudentFromDb,
 } from './student.service';
 import sendResponse from '../../utils/sendResponse';
-import catchAsync from 'src/app/utils/catchAsync';
+import catchAsync from '../../utils/catchAsync';
 
 const getAllStudent = catchAsync(async (req, res, next) => {
   try {

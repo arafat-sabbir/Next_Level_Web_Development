@@ -1,7 +1,5 @@
 import { StudentModel } from './student.model';
 
-
-
 const getAllStudentFromDb = async () => {
   const result = await StudentModel.find();
   return result;
@@ -17,8 +15,4 @@ const deleteSingleStudentFromDb = async (id: string) => {
   return result;
 };
 
-export {
-  getAllStudentFromDb,
-  getSingleStudentFromDb,
-  deleteSingleStudentFromDb,
-};
+export { getAllStudentFromDb, getSingleStudentFromDb, deleteSingleStudentFromDb };
