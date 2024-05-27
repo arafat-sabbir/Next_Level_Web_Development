@@ -25,7 +25,7 @@ export interface TStudent {
   id?: string; // Make id optional
   user: Types.ObjectId;
   name: TUserName;
-  dateOfBirth: string;
+  dateOfBirth: Date;
   gender: 'male' | 'female' | 'others';
   email: string;
   contactNo: string;

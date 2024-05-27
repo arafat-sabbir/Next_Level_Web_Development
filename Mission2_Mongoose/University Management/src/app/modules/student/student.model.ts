@@ -62,7 +62,7 @@ const studentSchema = new Schema<TStudent>(
       ref: 'User',
     },
     dateOfBirth: {
-      type: String,
+      type: Date,
       required: [true, 'Date of Birth is required'],
     },
     gender: {
