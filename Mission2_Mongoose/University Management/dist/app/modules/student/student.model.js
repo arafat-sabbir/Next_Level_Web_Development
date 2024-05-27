@@ -59,7 +59,7 @@ const studentSchema = new mongoose_1.Schema({
         ref: 'User',
     },
     dateOfBirth: {
-        type: String,
+        type: Date,
         required: [true, 'Date of Birth is required'],
     },
     gender: {
