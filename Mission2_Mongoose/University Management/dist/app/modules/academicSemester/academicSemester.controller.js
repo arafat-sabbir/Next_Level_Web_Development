@@ -16,8 +16,16 @@ exports.AcademicSemesterControllers = void 0;
 const sendResponse_1 = __importDefault(require("../../../app/utils/sendResponse"));
 const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
 const academicSemester_service_1 = require("./academicSemester.service");
-const createAcademicSemester = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const createAcademicSemester = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield academicSemester_service_1.AcademicSemesterServices.createAcademicSemesterIntoDb(req.body);
     (0, sendResponse_1.default)(res, { message: 'Academic Semester Created Successfully', data: result });
 }));
-exports.AcademicSemesterControllers = { createAcademicSemester };
+const getAllAcademicSemester = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield academicSemester_service_1.AcademicSemesterServices.getAllAcademicSemesterFromDb();
+    (0, sendResponse_1.default)(res, { message: 'Academic Semester Retrieved Successfully', data: result });
+}));
+const getSingleAcademicSemester = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield academicSemester_service_1.AcademicSemesterServices.getSingleAcademicSemesterFromDb(req.params.id);
+    (0, sendResponse_1.default)(res, { message: 'Academic Semester Retrieved Successfully', data: result });
+}));
+exports.AcademicSemesterControllers = { createAcademicSemester, getAllAcademicSemester, getSingleAcademicSemester };

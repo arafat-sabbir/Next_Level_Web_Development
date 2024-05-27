@@ -10,4 +10,6 @@ const validateRequest_1 = __importDefault(require("../../middlewares/validateReq
 const academicSemester_validation_1 = require("./academicSemester.validation");
 const router = express_1.default.Router();
 router.post('/create-academic-semester', (0, validateRequest_1.default)(academicSemester_validation_1.AcademicSemesterValidation.createAcademicSemesterZodValidationSchema), academicSemester_controller_1.AcademicSemesterControllers.createAcademicSemester);
+router.get('/get-academic-semesters', academicSemester_controller_1.AcademicSemesterControllers.getAllAcademicSemester);
+router.get('/get-academic-semester/:id', academicSemester_controller_1.AcademicSemesterControllers.getSingleAcademicSemester);
 exports.academicSemesterRoutes = router;

@@ -14,11 +14,19 @@ const getAllAcademicSemesterFromDb = async () => {
   return result;
 };
 const getSingleAcademicSemesterFromDb = async (id: string) => {
-  const result = await AcademicSemesterModel.findById({ id });
+  const result = await AcademicSemesterModel.findById({ _id: id });
   return result;
 };
-const updateSingleAcademicSemesterFromDb = async (id: string, data: Partial<TAcademicSemester>) => {
-  const result = await AcademicSemesterModel.findByIdAndUpdate({ id }, { data }, { new: true });
+const updateSingleAcademicSemesterFromDb = async (
+  id: string,
+  payload: Partial<TAcademicSemester>
+) => {
+  if (payload.name) {
+    if (academicSemesterNameCodeMapper[payload.name] != payload.code) {
+      throw new Error(`Invalid Code For Name ${payload.name}`);
+    }
+  }
+  const result = await AcademicSemesterModel.findByIdAndUpdate({ id }, { payload }, { new: true });
   return result;
 };
 
@@ -26,5 +34,5 @@ export const AcademicSemesterServices = {
   createAcademicSemesterIntoDb,
   getAllAcademicSemesterFromDb,
   updateSingleAcademicSemesterFromDb,
-  getSingleAcademicSemesterFromDb
+  getSingleAcademicSemesterFromDb,
 };
