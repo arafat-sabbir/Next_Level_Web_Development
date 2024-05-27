@@ -13,9 +13,30 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AcademicSemesterServices = void 0;
+const academicSemester_constant_1 = require("./academicSemester.constant");
 const academicSemester_model_1 = __importDefault(require("./academicSemester.model"));
 const createAcademicSemesterIntoDb = (payload) => __awaiter(void 0, void 0, void 0, function* () {
+    if (academicSemester_constant_1.academicSemesterNameCodeMapper[payload.name] != payload.code) {
+        throw new Error(`Invalid Code For Name ${payload.name}`);
+    }
     const result = yield academicSemester_model_1.default.create(payload);
     return result;
 });
-exports.AcademicSemesterServices = { createAcademicSemesterIntoDb };
+const getAllAcademicSemesterFromDb = () => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield academicSemester_model_1.default.find();
+    return result;
+});
+const getSingleAcademicSemesterFromDb = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield academicSemester_model_1.default.findById({ id });
+    return result;
+});
+const updateSingleAcademicSemesterFromDb = (id, data) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield academicSemester_model_1.default.findByIdAndUpdate({ id }, { data }, { new: true });
+    return result;
+});
+exports.AcademicSemesterServices = {
+    createAcademicSemesterIntoDb,
+    getAllAcademicSemesterFromDb,
+    updateSingleAcademicSemesterFromDb,
+    getSingleAcademicSemesterFromDb
+};

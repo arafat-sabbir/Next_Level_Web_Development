@@ -9,5 +9,22 @@ const createAcademicSemesterIntoDb = async (payload: TAcademicSemester) => {
   const result = await AcademicSemesterModel.create(payload);
   return result;
 };
+const getAllAcademicSemesterFromDb = async () => {
+  const result = await AcademicSemesterModel.find();
+  return result;
+};
+const getSingleAcademicSemesterFromDb = async (id: string) => {
+  const result = await AcademicSemesterModel.findById({ id });
+  return result;
+};
+const updateSingleAcademicSemesterFromDb = async (id: string, data: Partial<TAcademicSemester>) => {
+  const result = await AcademicSemesterModel.findByIdAndUpdate({ id }, { data }, { new: true });
+  return result;
+};
 
-export const AcademicSemesterServices = { createAcademicSemesterIntoDb };
+export const AcademicSemesterServices = {
+  createAcademicSemesterIntoDb,
+  getAllAcademicSemesterFromDb,
+  updateSingleAcademicSemesterFromDb,
+  getSingleAcademicSemesterFromDb
+};

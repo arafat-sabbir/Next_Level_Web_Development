@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SemesterCode = exports.SemesterName = exports.Months = void 0;
+exports.academicSemesterNameCodeMapper = exports.SemesterCode = exports.SemesterName = exports.Months = void 0;
 exports.Months = [
     'January',
     'February',
@@ -17,3 +17,8 @@ exports.Months = [
 ];
 exports.SemesterName = ['Autumn', 'Summer', 'Fall'];
 exports.SemesterCode = ['01', '02', '03'];
+exports.academicSemesterNameCodeMapper = {
+    Autumn: '01',
+    Summer: '02',
+    Fall: '03',
+};
