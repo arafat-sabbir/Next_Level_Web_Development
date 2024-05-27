@@ -36,7 +36,7 @@ const updateSingleAcademicSemesterFromDb = (id, payload) => __awaiter(void 0, vo
             throw new Error(`Invalid Code For Name ${payload.name}`);
         }
     }
-    const result = yield academicSemester_model_1.default.findByIdAndUpdate({ id }, { payload }, { new: true });
+    const result = yield academicSemester_model_1.default.findByIdAndUpdate({ _id: id }, payload, { new: true });
     return result;
 });
 exports.AcademicSemesterServices = {

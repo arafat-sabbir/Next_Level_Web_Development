@@ -25,7 +25,19 @@ const getAllAcademicSemester = (0, catchAsync_1.default)((req, res) => __awaiter
     (0, sendResponse_1.default)(res, { message: 'Academic Semester Retrieved Successfully', data: result });
 }));
 const getSingleAcademicSemester = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield academicSemester_service_1.AcademicSemesterServices.getSingleAcademicSemesterFromDb(req.params.id);
+    const result = yield academicSemester_service_1.AcademicSemesterServices.getSingleAcademicSemesterFromDb(req.params.semesterId);
     (0, sendResponse_1.default)(res, { message: 'Academic Semester Retrieved Successfully', data: result });
 }));
-exports.AcademicSemesterControllers = { createAcademicSemester, getAllAcademicSemester, getSingleAcademicSemester };
+const updateSingleAcademicSemester = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield academicSemester_service_1.AcademicSemesterServices.updateSingleAcademicSemesterFromDb(req.params.semesterId, req.body);
+    (0, sendResponse_1.default)(res, {
+        message: `Product For ${req.params.semesterId} Updated Successfully`,
+        data: result,
+    });
+}));
+exports.AcademicSemesterControllers = {
+    createAcademicSemester,
+    getAllAcademicSemester,
+    getSingleAcademicSemester,
+    updateSingleAcademicSemester,
+};
