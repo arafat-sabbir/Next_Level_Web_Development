@@ -5,7 +5,7 @@ const createAcademicDepartmentValidationSchema = z.object({
     name: z.string({
       invalid_type_error: 'Academic Semester Must Be String',
     }),
-    academicSemester: z.string(),
+    academicFaculty: z.string(),
   }),
 });
 const updateAcademicDepartmentValidationSchema = z.object({
@@ -15,7 +15,7 @@ const updateAcademicDepartmentValidationSchema = z.object({
         invalid_type_error: 'Academic Semester Must Be String',
       })
       .optional(),
-    academicSemester: z.string().optional(),
+      academicFaculty: z.string().optional(),
   }),
 });
 
