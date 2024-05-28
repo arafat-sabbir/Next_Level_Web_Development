@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AcademicSemesterControllers = void 0;
+exports.AcademicFacultyControllers = void 0;
 const sendResponse_1 = __importDefault(require("../../../app/utils/sendResponse"));
 const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
 const academicFaculty_service_1 = require("./academicFaculty.service");
@@ -35,7 +35,7 @@ const updateSingleAcademicFaculty = (0, catchAsync_1.default)((req, res) => __aw
         data: result,
     });
 }));
-exports.AcademicSemesterControllers = {
+exports.AcademicFacultyControllers = {
     createAcademicFaculty,
     getSingleAcademicFaculty,
     getAllAcademicFaculty,

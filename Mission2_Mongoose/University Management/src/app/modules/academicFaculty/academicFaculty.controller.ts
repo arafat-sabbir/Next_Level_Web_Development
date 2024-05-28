@@ -27,7 +27,7 @@ const updateSingleAcademicFaculty = catchAsync(async (req, res) => {
   });
 });
 
-export const AcademicSemesterControllers = {
+export const AcademicFacultyControllers = {
   createAcademicFaculty,
   getSingleAcademicFaculty,
   getAllAcademicFaculty,
