@@ -1,11 +1,11 @@
 import { Schema, model } from 'mongoose';
 import bcrypt from 'bcrypt';
 import { TUser } from './user.interface';
-import config from '../../../../src/app/config/index';
+import config from '../../config/index';
 
 const userSchema = new Schema<TUser>(
   {
-    id: { type: String, required: true, unique: true },
+    id: { type: String, required: true},
     password: { type: String, required: true },
     needsPasswordChange: { type: Boolean, default: true },
     role: { type: String, enum: ['admin', 'student', 'faculty'] },

@@ -50,7 +50,7 @@ const localGuardianSchema = new Schema<TLocalGuardian>({
 
 const studentSchema = new Schema<TStudent>(
   {
-    id: { type: String, unique: true, required: [true, 'Id Is Required'] },
+    id: { type: String, required: [true, 'Id Is Required'] },
     user: {
       type: Schema.Types.ObjectId,
       required: [true, 'User id Is Required'],
