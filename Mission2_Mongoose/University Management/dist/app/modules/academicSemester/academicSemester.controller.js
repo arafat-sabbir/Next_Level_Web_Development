@@ -31,7 +31,7 @@ const getSingleAcademicSemester = (0, catchAsync_1.default)((req, res) => __awai
 const updateSingleAcademicSemester = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield academicSemester_service_1.AcademicSemesterServices.updateSingleAcademicSemesterFromDb(req.params.semesterId, req.body);
     (0, sendResponse_1.default)(res, {
-        message: `Product For ${req.params.semesterId} Updated Successfully`,
+        message: `Semester For ${req.params.semesterId} Updated Successfully`,
         data: result,
     });
 }));

@@ -13,10 +13,6 @@ const userNameSchema = new mongoose_1.Schema({
     lastName: {
         type: String,
         required: [true, 'Last Name is required'],
-        // validate: {
-        //   validator: (value: string) => validator.isAlpha(value),
-        //   message: '{VALUE} is Not Valid',
-        // },
     },
 });
 const guardianSchema = new mongoose_1.Schema({
@@ -51,7 +47,7 @@ const localGuardianSchema = new mongoose_1.Schema({
     },
 });
 const studentSchema = new mongoose_1.Schema({
-    id: { type: String, unique: true },
+    id: { type: String, unique: [true, 'Id Is required'] },
     user: {
         type: mongoose_1.Schema.Types.ObjectId,
         required: [true, 'User id Is Required'],
@@ -72,10 +68,6 @@ const studentSchema = new mongoose_1.Schema({
         type: String,
         required: [true, 'Email is required'],
         unique: true,
-        // validate: {
-        //   validator: (value: string) => validator.isEmail(value),
-        //   message: '{VALUE} Is Not A Valid Email Type',
-        // },
     },
     contactNo: { type: String, required: [true, 'Contact Number is required'] },
     emergencyContactNumber: {
@@ -103,7 +95,7 @@ const studentSchema = new mongoose_1.Schema({
         required: [true, 'Local Guardian information is required'],
     },
     profileImage: { type: String },
-    isDeleted: { type: Boolean, required: true, default: false },
+    admissionSemester: { type: mongoose_1.Schema.Types.ObjectId, required: true, ref: 'academicSemester' },
 }, {
     toJSON: {
         virtuals: true,

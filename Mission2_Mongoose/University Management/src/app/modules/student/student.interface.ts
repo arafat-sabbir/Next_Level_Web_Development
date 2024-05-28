@@ -22,7 +22,7 @@ export interface TLocalGuardian {
 }
 
 export interface TStudent {
-  id?: string; // Make id optional
+  id?: string; 
   user: Types.ObjectId;
   name: TUserName;
   dateOfBirth: Date;
@@ -36,7 +36,7 @@ export interface TStudent {
   guardian: TGuardian;
   localGuardian: TLocalGuardian;
   profileImage?: string;
-  isDeleted: boolean;
+  admissionSemester: Types.ObjectId;
 }
 
 type StudentMethods = {

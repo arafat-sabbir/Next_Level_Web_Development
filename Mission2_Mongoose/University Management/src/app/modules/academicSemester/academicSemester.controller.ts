@@ -24,7 +24,7 @@ const updateSingleAcademicSemester = catchAsync(async (req, res) => {
     req.body
   );
   sendResponse(res, {
-    message: `Product For ${req.params.semesterId} Updated Successfully`,
+    message: `Semester For ${req.params.semesterId} Updated Successfully`,
     data: result,
   });
 });

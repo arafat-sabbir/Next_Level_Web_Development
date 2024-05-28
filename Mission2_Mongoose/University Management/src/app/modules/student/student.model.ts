@@ -12,10 +12,6 @@ const userNameSchema = new Schema<TUserName>({
   lastName: {
     type: String,
     required: [true, 'Last Name is required'],
-    // validate: {
-    //   validator: (value: string) => validator.isAlpha(value),
-    //   message: '{VALUE} is Not Valid',
-    // },
   },
 });
 
@@ -54,7 +50,7 @@ const localGuardianSchema = new Schema<TLocalGuardian>({
 
 const studentSchema = new Schema<TStudent>(
   {
-    id: { type: String, unique: true },
+    id: { type: String, unique: [true, 'Id Is required'] },
     user: {
       type: Schema.Types.ObjectId,
       required: [true, 'User id Is Required'],
@@ -75,10 +71,6 @@ const studentSchema = new Schema<TStudent>(
       type: String,
       required: [true, 'Email is required'],
       unique: true,
-      // validate: {
-      //   validator: (value: string) => validator.isEmail(value),
-      //   message: '{VALUE} Is Not A Valid Email Type',
-      // },
     },
     contactNo: { type: String, required: [true, 'Contact Number is required'] },
     emergencyContactNumber: {
@@ -106,7 +98,7 @@ const studentSchema = new Schema<TStudent>(
       required: [true, 'Local Guardian information is required'],
     },
     profileImage: { type: String },
-    isDeleted: { type: Boolean, required: true, default: false },
+    admissionSemester: { type: Schema.Types.ObjectId, required: true, ref: 'academicSemester' },
   },
   {
     toJSON: {
