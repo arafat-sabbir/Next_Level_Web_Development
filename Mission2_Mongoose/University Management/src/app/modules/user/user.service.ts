@@ -19,12 +19,13 @@ const createStudentOnDb = async (password: string, payload: TStudent) => {
   const semesterData = await AcademicSemesterServices.getSingleAcademicSemesterFromDb(
     String(payload.admissionSemester)
   );
-  userData.id = generateStudentId(semesterData as TAcademicSemester);
+  userData.id = await generateStudentId(semesterData as TAcademicSemester);
+  console.log(userData.id);
+
   // create a user
   const newUser = await UserModel.create(userData);
 
   if (Object.keys(newUser).length) {
-    // set id ,_id as user
     payload.id = newUser.id;
     payload.user = newUser._id;
     const newStudent = await StudentModel.create(payload);
