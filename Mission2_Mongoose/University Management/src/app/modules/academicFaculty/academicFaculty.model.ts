@@ -5,6 +5,6 @@ const academicFacultySchema = new Schema<TAcademicFaculty>({
   name: { type: String, required: true, unique: true },
 });
 
-const academicFacultyModel = model('academicFacultyModel', academicFacultySchema);
+const AcademicFacultyModel = model('academicFacultyModel', academicFacultySchema);
 
-export default academicFacultyModel;
+export default AcademicFacultyModel;
