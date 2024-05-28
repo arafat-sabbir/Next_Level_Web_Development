@@ -24,7 +24,7 @@ const updateSingleAcademicDepartment = catchAsync(async (req, res) => {
     req.body
   );
   sendResponse(res, {
-    message: `Department For ${req.params.semesterId} Updated Successfully`,
+    message: `Department For ${req.params.departmentId} Updated Successfully`,
     data: result,
   });
 });

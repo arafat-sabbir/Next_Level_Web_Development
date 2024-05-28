@@ -31,7 +31,7 @@ const getSingleAcademicDepartment = (0, catchAsync_1.default)((req, res) => __aw
 const updateSingleAcademicDepartment = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield academicDepartment_service_1.AcademicDepartmentServices.updateSingleAcademicDepartmentFromDb(req.params.departmentId, req.body);
     (0, sendResponse_1.default)(res, {
-        message: `Department For ${req.params.semesterId} Updated Successfully`,
+        message: `Department For ${req.params.departmentId} Updated Successfully`,
         data: result,
     });
 }));
