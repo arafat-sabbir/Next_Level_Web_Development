@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = require("mongoose");
 const academicDepartmentSchema = new mongoose_1.Schema({
     name: { type: String, required: true, unique: true },
-    academicFaculty: { type: mongoose_1.Schema.Types.ObjectId, required: true, ref: 'academicfaculties' },
+    academicFaculty: { type: mongoose_1.Schema.Types.ObjectId, required: true, ref: 'academicFaculties' },
 }, { timestamps: true });
 academicDepartmentSchema.pre('save', function (next) {
     return __awaiter(this, void 0, void 0, function* () {

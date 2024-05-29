@@ -54,6 +54,10 @@ const studentSchema = new mongoose_1.Schema({
         unique: true,
         ref: 'User',
     },
+    name: {
+        type: userNameSchema,
+        required: [true, 'Name is required'],
+    },
     dateOfBirth: {
         type: Date,
         required: [true, 'Date of Birth is required'],

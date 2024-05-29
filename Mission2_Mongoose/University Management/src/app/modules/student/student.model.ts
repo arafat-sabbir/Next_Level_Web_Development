@@ -57,6 +57,10 @@ const studentSchema = new Schema<TStudent>(
       unique: true,
       ref: 'User',
     },
+    name: {
+      type: userNameSchema,
+      required: [true, 'Name is required'],
+    },
     dateOfBirth: {
       type: Date,
       required: [true, 'Date of Birth is required'],

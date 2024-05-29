@@ -16,7 +16,7 @@ exports.userControllers = void 0;
 const user_service_1 = require("./user.service");
 const sendResponse_1 = __importDefault(require("../../../app/utils/sendResponse"));
 const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
-const createNewStudent = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const createNewStudent = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { password, student: studentData } = req.body;
     const result = yield user_service_1.userService.createStudentOnDb(password, studentData);
     (0, sendResponse_1.default)(res, { message: 'Student Created Successfully', data: result });

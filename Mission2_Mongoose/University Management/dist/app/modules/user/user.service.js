@@ -27,7 +27,6 @@ const createStudentOnDb = (password, payload) => __awaiter(void 0, void 0, void 
     // findAcademic Semester
     const semesterData = yield academicSemester_service_1.AcademicSemesterServices.getSingleAcademicSemesterFromDb(String(payload.admissionSemester));
     userData.id = yield (0, user_utils_1.generateStudentId)(semesterData);
-    console.log(userData.id);
     // create a user
     const newUser = yield user_model_1.UserModel.create(userData);
     if (Object.keys(newUser).length) {
