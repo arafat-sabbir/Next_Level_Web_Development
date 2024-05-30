@@ -37,6 +37,8 @@ export interface TStudent {
   localGuardian: TLocalGuardian;
   profileImage?: string;
   admissionSemester: Types.ObjectId;
+  academicDepartment:Types.ObjectId
+  isDeleted:boolean;
 }
 
 type StudentMethods = {

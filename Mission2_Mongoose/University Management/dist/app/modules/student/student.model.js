@@ -100,6 +100,8 @@ const studentSchema = new mongoose_1.Schema({
     },
     profileImage: { type: String },
     admissionSemester: { type: mongoose_1.Schema.Types.ObjectId, required: true, ref: 'academicSemester' },
+    academicDepartment: { type: mongoose_1.Schema.Types.ObjectId, required: true, ref: 'academicDepartment' },
+    isDeleted: { type: Boolean, default: false },
 }, {
     toJSON: {
         virtuals: true,

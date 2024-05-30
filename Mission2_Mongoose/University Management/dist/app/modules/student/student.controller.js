@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteSingleStudent = exports.getSingleStudent = exports.getAllStudent = void 0;
+exports.updateSingleStudent = exports.deleteSingleStudent = exports.getSingleStudent = exports.getAllStudent = void 0;
 const student_service_1 = require("./student.service");
 const sendResponse_1 = __importDefault(require("../../utils/sendResponse"));
 const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
@@ -37,6 +37,17 @@ const getSingleStudent = (0, catchAsync_1.default)((req, res, next) => __awaiter
     }
 }));
 exports.getSingleStudent = getSingleStudent;
+const updateSingleStudent = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { id } = req.params;
+        const result = yield (0, student_service_1.updateSingleStudentFromDb)(id);
+        (0, sendResponse_1.default)(res, { message: 'Student Deleted Successfully', data: result });
+    }
+    catch (error) {
+        next(error);
+    }
+}));
+exports.updateSingleStudent = updateSingleStudent;
 const deleteSingleStudent = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;

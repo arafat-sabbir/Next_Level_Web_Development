@@ -8,8 +8,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = require("mongoose");
+const AppError_1 = __importDefault(require("../../errors/AppError"));
 const academicDepartmentSchema = new mongoose_1.Schema({
     name: { type: String, required: true, unique: true },
     academicFaculty: { type: mongoose_1.Schema.Types.ObjectId, required: true, ref: 'academicFaculties' },
@@ -18,7 +22,7 @@ academicDepartmentSchema.pre('save', function (next) {
     return __awaiter(this, void 0, void 0, function* () {
         const isDepartMentExist = yield AcademicDepartmentModel.findOne({ name: this.name });
         if (isDepartMentExist) {
-            throw new Error('Department Already Exist');
+            throw new AppError_1.default(500, 'Department Already Exist');
         }
         else {
             next();
@@ -30,10 +34,10 @@ academicDepartmentSchema.pre('findOneAndUpdate', function (next) {
         const query = this.getQuery();
         const isDepartmentExist = yield AcademicDepartmentModel.findOne({ _id: query._id });
         if (!isDepartmentExist) {
-            return next(new Error("Department Doesn't Exist"));
+            throw new AppError_1.default(404, "Department Doesn't Exist");
         }
         next();
     });
 });
-const AcademicDepartmentModel = (0, mongoose_1.model)('academicdepartment', academicDepartmentSchema);
+const AcademicDepartmentModel = (0, mongoose_1.model)('academicDepartment', academicDepartmentSchema);
 exports.default = AcademicDepartmentModel;

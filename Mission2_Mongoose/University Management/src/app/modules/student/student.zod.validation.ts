@@ -47,9 +47,35 @@ const createStudentZodValidationSchema = z.object({
       guardian: guardianZodValidationSchema,
       localGuardian: localGuardianZodValidationSchema,
       admissionSemester: z.string(),
+      academicDepartment: z.string(),
       profileImage: z.string().optional(),
     }),
   }),
 });
+const updateStudentZodValidationSchema = z
+  .object({
+    body: z.object({
+      password: z.string().nonempty('Password Is Required'),
+      student: z.object({
+        name: userNameZodValidationSchema,
+        dateOfBirth: z.string().nonempty('Date of Birth is required'),
+        gender: z.enum(['male', 'female', 'others'], {
+          required_error: 'Gender is required',
+        }),
+        email: z.string().email('Invalid email address').nonempty('Email is required'),
+        contactNo: z.string().nonempty('Contact Number is required'),
+        emergencyContactNumber: z.string().nonempty('Emergency Contact Number is required'),
+        bloodGroup: z.enum(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']).optional(),
+        presentAddress: z.string().nonempty('Present Address is required'),
+        permanentAddress: z.string().nonempty('Permanent Address is required'),
+        guardian: guardianZodValidationSchema,
+        localGuardian: localGuardianZodValidationSchema,
+        admissionSemester: z.string(),
+        academicDepartment: z.string(),
+        profileImage: z.string().optional(),
+      }),
+    }),
+  })
+  .partial();
 
-export { createStudentZodValidationSchema };
+export { createStudentZodValidationSchema, updateStudentZodValidationSchema };
