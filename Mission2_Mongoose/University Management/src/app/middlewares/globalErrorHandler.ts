@@ -6,6 +6,7 @@ import handleValidationError from '../errors/HandleValidationError';
 import handleZodError from '../errors/HandleZodError';
 import handleCastError from './HandleCastError';
 import handleDuplicateError from '../errors/HandleDuplicateError';
+import AppError from '../errors/AppError';
 
 /**
  * Global error handler for Express.js applications.
@@ -24,10 +25,10 @@ const globalErrorHandler: ErrorRequestHandler = (
   next
 ) => {
   // Retrieve the status code from the error object, or default to 500.
-  let statusCode = error.statusCode || 500;
+  let statusCode = 500;
   let stack = null;
   // Retrieve the error message from the error object, or default to 'Something Went Wrong'.
-  let message = error.message || 'Something Went Wrong';
+  let message = 'Something Went Wrong';
 
   let errorSources: TErrorSources = [
     {
@@ -59,6 +60,25 @@ const globalErrorHandler: ErrorRequestHandler = (
     statusCode = simplifiedError?.statusCode;
     message = simplifiedError?.message;
     errorSources = simplifiedError?.errorSources;
+    stack = config.NODE_ENV === 'development' && error.stack;
+  } else if (error instanceof AppError) {
+    statusCode = error?.statusCode;
+    message = error?.message;
+    errorSources = [
+      {
+        path: ' ',
+        message: error.message,
+      },
+    ];
+    stack = config.NODE_ENV === 'development' && error.stack;
+  } else if (error instanceof Error) {
+    message = error?.message;
+    errorSources = [
+      {
+        path: ' ',
+        message: error.message,
+      },
+    ];
     stack = config.NODE_ENV === 'development' && error.stack;
   }
   // Return a JSON response with the error message and status code.

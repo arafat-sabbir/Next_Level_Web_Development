@@ -9,6 +9,7 @@ const HandleValidationError_1 = __importDefault(require("../errors/HandleValidat
 const HandleZodError_1 = __importDefault(require("../errors/HandleZodError"));
 const HandleCastError_1 = __importDefault(require("./HandleCastError"));
 const HandleDuplicateError_1 = __importDefault(require("../errors/HandleDuplicateError"));
+const AppError_1 = __importDefault(require("../errors/AppError"));
 /**
  * Global error handler for Express.js applications.
  * Handles errors that occur during the request-response cycle.
@@ -21,10 +22,10 @@ const HandleDuplicateError_1 = __importDefault(require("../errors/HandleDuplicat
  */
 const globalErrorHandler = (error, req, res, next) => {
     // Retrieve the status code from the error object, or default to 500.
-    let statusCode = error.statusCode || 500;
+    let statusCode = 500;
     let stack = null;
     // Retrieve the error message from the error object, or default to 'Something Went Wrong'.
-    let message = error.message || 'Something Went Wrong';
+    let message = 'Something Went Wrong';
     let errorSources = [
         {
             path: ' ',
@@ -57,6 +58,27 @@ const globalErrorHandler = (error, req, res, next) => {
         statusCode = simplifiedError === null || simplifiedError === void 0 ? void 0 : simplifiedError.statusCode;
         message = simplifiedError === null || simplifiedError === void 0 ? void 0 : simplifiedError.message;
         errorSources = simplifiedError === null || simplifiedError === void 0 ? void 0 : simplifiedError.errorSources;
+        stack = config_1.default.NODE_ENV === 'development' && error.stack;
+    }
+    else if (error instanceof AppError_1.default) {
+        statusCode = error === null || error === void 0 ? void 0 : error.statusCode;
+        message = error === null || error === void 0 ? void 0 : error.message;
+        errorSources = [
+            {
+                path: ' ',
+                message: error.message,
+            },
+        ];
+        stack = config_1.default.NODE_ENV === 'development' && error.stack;
+    }
+    else if (error instanceof Error) {
+        message = error === null || error === void 0 ? void 0 : error.message;
+        errorSources = [
+            {
+                path: ' ',
+                message: error.message,
+            },
+        ];
         stack = config_1.default.NODE_ENV === 'development' && error.stack;
     }
     // Return a JSON response with the error message and status code.
