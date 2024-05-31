@@ -1,4 +1,4 @@
-import express, { Application, Request, Response } from 'express';
+import express, { Application, Request, Response, text } from 'express';
 const app: Application = express();
 import cors from 'cors';
 import globalErrorHandler from './app/middlewares/globalErrorHandler';
@@ -8,10 +8,13 @@ app.use(express.json());
 app.use(cors());
 // use All The Routes From Routes
 app.use('/api/v1', allRoutes);
-
-app.get('/', (req: Request, res: Response) => {
+const test = (req: Request, res: Response) => {
   res.send('Hello NewBie!');
-});
+};
+
+app.get('/', test);
+
+
 
 app.use(globalErrorHandler);
 

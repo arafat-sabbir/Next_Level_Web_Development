@@ -5,10 +5,9 @@ const handleDuplicateError = (err: any) => {
   const statusCode = 400;
   const match = err.message.match(/"([^"]*)"/);
   const extractedMessage = match && match[1];
-
   const errorSources: TErrorSources = [
     {
-      path: err.keyValue|| " ",
+      path: err.keyValue,
       message: `${extractedMessage} already exists`,
     },
   ];

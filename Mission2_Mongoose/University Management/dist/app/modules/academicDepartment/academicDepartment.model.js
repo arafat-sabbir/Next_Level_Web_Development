@@ -24,7 +24,7 @@ academicDepartmentSchema.pre('save', function (next) {
     return __awaiter(this, void 0, void 0, function* () {
         const isDepartMentExist = yield AcademicDepartmentModel.findOne({ name: this.name });
         if (isDepartMentExist) {
-            throw new AppError_1.default(500, 'Department Already Exist');
+            throw new AppError_1.default(500, `${this.name} Already Exist`);
         }
         else {
             next();

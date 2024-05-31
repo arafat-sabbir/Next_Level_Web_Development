@@ -15,7 +15,7 @@ const academicDepartmentSchema = new Schema<TAcademicDepartment>(
 academicDepartmentSchema.pre('save', async function (next) {
   const isDepartMentExist = await AcademicDepartmentModel.findOne({ name: this.name });
   if (isDepartMentExist) {
-    throw new AppError(500, 'Department Already Exist');
+    throw new AppError(500, `${this.name} Already Exist`);
   } else {
     next();
   }

@@ -12,9 +12,10 @@ app.use(express_1.default.json());
 app.use((0, cors_1.default)());
 // use All The Routes From Routes
 app.use('/api/v1', index_1.default);
-app.get('/', (req, res) => {
+const test = (req, res) => {
     res.send('Hello NewBie!');
-});
+};
+app.get('/', test);
 app.use(globalErrorHandler_1.default);
 app.all('*', (req, res) => {
     res.status(404).json({ success: false, message: `Route Is Not Found ${req.url}` });
