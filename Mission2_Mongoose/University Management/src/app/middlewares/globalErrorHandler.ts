@@ -1,9 +1,11 @@
-import { ErrorRequestHandler } from 'express';
-import { ZodError, ZodIssue } from 'zod';
-import { TErrorSources } from '../interface/error';
+import { ErrorRequestHandler, Response } from 'express';
+import { ZodError } from 'zod';
+import { TErrorSources, TGenericErrorResponse } from '../interface/error';
 import config from '../config';
 import handleValidationError from '../errors/HandleValidationError';
 import handleZodError from '../errors/HandleZodError';
+import handleCastError from './HandleCastError';
+import handleDuplicateError from '../errors/HandleDuplicateError';
 
 /**
  * Global error handler for Express.js applications.
@@ -15,7 +17,12 @@ import handleZodError from '../errors/HandleZodError';
  * @param {NextFunction} next - The next function.
  * @return {Response} The JSON response containing the error message and status code.
  */
-const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
+const globalErrorHandler: ErrorRequestHandler = (
+  error,
+  req,
+  res: Response<TGenericErrorResponse>,
+  next
+) => {
   // Retrieve the status code from the error object, or default to 500.
   let statusCode = error.statusCode || 500;
   let stack = null;
@@ -35,8 +42,20 @@ const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
     message = simplifiedError?.message;
     errorSources = simplifiedError?.errorSources;
     stack = config.NODE_ENV === 'development' && error.stack;
-  } else if ((error.name ==='ValidationError')) {
+  } else if (error.name === 'ValidationError') {
     const simplifiedError = handleValidationError(error);
+    statusCode = simplifiedError?.statusCode;
+    message = simplifiedError?.message;
+    errorSources = simplifiedError?.errorSources;
+    stack = config.NODE_ENV === 'development' && error.stack;
+  } else if (error.name === 'CastError') {
+    const simplifiedError = handleCastError(error);
+    statusCode = simplifiedError?.statusCode;
+    message = simplifiedError?.message;
+    errorSources = simplifiedError?.errorSources;
+    stack = config.NODE_ENV === 'development' && error.stack;
+  } else if (error.code === 11000) {
+    const simplifiedError = handleDuplicateError(error);
     statusCode = simplifiedError?.statusCode;
     message = simplifiedError?.message;
     errorSources = simplifiedError?.errorSources;
@@ -44,6 +63,7 @@ const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
   }
   // Return a JSON response with the error message and status code.
   return res.status(statusCode).json({
+    statusCode,
     success: false,
     message,
     errorSources,
