@@ -1,6 +1,7 @@
-import mongoose, { mongo } from 'mongoose';
+import mongoose from 'mongoose';
 import { StudentModel } from './student.model';
 import { UserModel } from '../user/user.model';
+import { TStudent } from './student.interface';
 
 const getAllStudentFromDb = async () => {
   const result = await StudentModel.find()
@@ -29,17 +30,9 @@ const getSingleStudentFromDb = async (id: string) => {
     .lean();
   return result;
 };
-const updateSingleStudentFromDb = async (id: string) => {
-  const result = await StudentModel.findOne({ id })
-    .populate('user')
-    .populate('admissionSemester')
-    .populate({
-      path: 'academicDepartment',
-      populate: {
-        path: 'academicFaculty',
-      },
-    })
-    .lean();
+const updateSingleStudentFromDb = async (id: string, payload: Partial<TStudent>) => {
+  console.log(payload);
+  const result = StudentModel.findOneAndUpdate({ id },payload, { new: true });
   return result;
 };
 const deleteSingleStudentFromDb = async (id: string) => {
@@ -72,4 +65,9 @@ const deleteSingleStudentFromDb = async (id: string) => {
   }
 };
 
-export { getAllStudentFromDb, getSingleStudentFromDb, deleteSingleStudentFromDb,updateSingleStudentFromDb };
+export {
+  getAllStudentFromDb,
+  getSingleStudentFromDb,
+  deleteSingleStudentFromDb,
+  updateSingleStudentFromDb,
+};

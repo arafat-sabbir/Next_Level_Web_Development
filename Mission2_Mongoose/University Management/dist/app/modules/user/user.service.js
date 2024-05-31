@@ -20,24 +20,36 @@ const student_model_1 = require("../student/student.model");
 const user_model_1 = require("./user.model");
 const user_utils_1 = require("./user.utils");
 const AppError_1 = __importDefault(require("../../errors/AppError"));
+/**
+ * Creates a student on the database.
+ * @param password The password for the student. If null, the default password is used.
+ * @param payload The payload containing the student's data.
+ * @returns The newly created student.
+ * @throws {AppError} If the creation of the user or the student fails.
+ */
 const createStudentOnDb = (password, payload) => __awaiter(void 0, void 0, void 0, function* () {
+    // Prepare user data
     const userData = {};
+    // Use the provided password, otherwise use the default password
     userData.password = password || config_1.default.default_password;
-    // Set student role
+    // Set the role of the user to 'student'
     userData.role = 'student';
-    // findAcademic Semester
-    const semesterData = yield academicSemester_service_1.AcademicSemesterServices.getSingleAcademicSemesterFromDb(String(payload.admissionSemester));
-    userData.id = yield (0, user_utils_1.generateStudentId)(semesterData);
+    // Find the academic semester
+    const semester = yield academicSemester_service_1.AcademicSemesterServices.getSingleAcademicSemesterFromDb(String(payload.admissionSemester));
+    // Generate the student ID
+    userData.id = yield (0, user_utils_1.generateStudentId)(semester);
     const session = yield mongoose_1.default.startSession();
     try {
-        // create a user
+        // Create a user
         session.startTransaction();
         const newUser = yield user_model_1.UserModel.create([userData], { session });
         if (!newUser.length) {
             throw new AppError_1.default(400, 'Failed To Create User');
         }
+        // Set the user ID and user reference in the payload
         payload.id = newUser[0].id;
         payload.user = newUser[0]._id;
+        // Create the student
         const newStudent = yield student_model_1.StudentModel.create([payload], { session });
         if (!newStudent) {
             throw new AppError_1.default(400, 'Error Creating User');

@@ -40,8 +40,9 @@ exports.getSingleStudent = getSingleStudent;
 const updateSingleStudent = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
-        const result = yield (0, student_service_1.updateSingleStudentFromDb)(id);
-        (0, sendResponse_1.default)(res, { message: 'Student Deleted Successfully', data: result });
+        const { student } = req.body;
+        const result = yield (0, student_service_1.updateSingleStudentFromDb)(id, student);
+        (0, sendResponse_1.default)(res, { message: 'Student Updated Successfully', data: result });
     }
     catch (error) {
         next(error);

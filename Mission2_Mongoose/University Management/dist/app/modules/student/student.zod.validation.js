@@ -52,12 +52,13 @@ const createStudentZodValidationSchema = zod_1.z.object({
     }),
 });
 exports.createStudentZodValidationSchema = createStudentZodValidationSchema;
-const updateStudentZodValidationSchema = zod_1.z
-    .object({
-    body: zod_1.z.object({
-        password: zod_1.z.string().nonempty('Password Is Required'),
-        student: zod_1.z.object({
-            name: userNameZodValidationSchema,
+const updateStudentZodValidationSchema = zod_1.z.object({
+    body: zod_1.z
+        .object({
+        password: zod_1.z.string().nonempty('Password Is Required').optional(), // Make password optional
+        student: zod_1.z
+            .object({
+            name: userNameZodValidationSchema.partial(),
             dateOfBirth: zod_1.z.string().nonempty('Date of Birth is required'),
             gender: zod_1.z.enum(['male', 'female', 'others'], {
                 required_error: 'Gender is required',
@@ -68,13 +69,15 @@ const updateStudentZodValidationSchema = zod_1.z
             bloodGroup: zod_1.z.enum(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']).optional(),
             presentAddress: zod_1.z.string().nonempty('Present Address is required'),
             permanentAddress: zod_1.z.string().nonempty('Permanent Address is required'),
-            guardian: guardianZodValidationSchema,
-            localGuardian: localGuardianZodValidationSchema,
+            guardian: guardianZodValidationSchema.partial(),
+            localGuardian: localGuardianZodValidationSchema.partial(),
             admissionSemester: zod_1.z.string(),
             academicDepartment: zod_1.z.string(),
             profileImage: zod_1.z.string().optional(),
-        }),
-    }),
-})
-    .partial();
+        })
+            .partial(),
+    })
+        .partial(),
+});
 exports.updateStudentZodValidationSchema = updateStudentZodValidationSchema;
+exports.default = updateStudentZodValidationSchema;

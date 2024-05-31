@@ -9,29 +9,41 @@ import { UserModel } from './user.model';
 import { generateStudentId } from './user.utils';
 import AppError from '../../errors/AppError';
 
+/**
+ * Creates a student on the database.
+ * @param password The password for the student. If null, the default password is used.
+ * @param payload The payload containing the student's data.
+ * @returns The newly created student.
+ * @throws {AppError} If the creation of the user or the student fails.
+ */
 const createStudentOnDb = async (password: string, payload: TStudent) => {
+  // Prepare user data
   const userData: Partial<TUser> = {};
+  // Use the provided password, otherwise use the default password
   userData.password = password || (config.default_password as string);
-
-  // Set student role
+  // Set the role of the user to 'student'
   userData.role = 'student';
 
-  // findAcademic Semester
-  const semesterData = await AcademicSemesterServices.getSingleAcademicSemesterFromDb(
+  // Find the academic semester
+  const semester = await AcademicSemesterServices.getSingleAcademicSemesterFromDb(
     String(payload.admissionSemester)
   );
-  userData.id = await generateStudentId(semesterData as TAcademicSemester);
+  // Generate the student ID
+  userData.id = await generateStudentId(semester as TAcademicSemester);
+
   const session = await mongoose.startSession();
   try {
-    // create a user
+    // Create a user
     session.startTransaction();
     const newUser = await UserModel.create([userData], { session });
     if (!newUser.length) {
       throw new AppError(400, 'Failed To Create User');
     }
+    // Set the user ID and user reference in the payload
     payload.id = newUser[0].id;
     payload.user = newUser[0]._id;
 
+    // Create the student
     const newStudent = await StudentModel.create([payload], { session });
     if (!newStudent) {
       throw new AppError(400, 'Error Creating User');

@@ -12,7 +12,7 @@ router.post(
 
 router.get('/get-academic-faculties', AcademicFacultyControllers.getAllAcademicFaculty);
 router.get('/get-academic-faculty/:facultyId', AcademicFacultyControllers.getSingleAcademicFaculty);
-router.put(
+router.patch(
   '/update-academic-faculty/:facultyId',
   validateRequest(AcademicFacultyValidation.updateAcademicFacultyValidationSchema),
   AcademicFacultyControllers.updateSingleAcademicFaculty

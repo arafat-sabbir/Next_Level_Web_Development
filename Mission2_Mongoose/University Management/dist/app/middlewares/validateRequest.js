@@ -9,13 +9,22 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * Middleware to validate incoming request body using Zod schema.
+ *
+ * @param {AnyZodObject} schema - The Zod schema used for validation.
+ * @returns {Function} - The middleware function.
+ */
 const validateRequest = (schema) => {
     return (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
         try {
+            // Parse the request body using the provided schema.
             yield schema.parseAsync({ body: req.body });
+            // Continue to the next middleware.
             next();
         }
         catch (error) {
+            // Pass the error to the next middleware if validation fails.
             next(error);
         }
     });

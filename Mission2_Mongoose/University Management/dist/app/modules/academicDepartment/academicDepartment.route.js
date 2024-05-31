@@ -12,5 +12,5 @@ const router = express_1.default.Router();
 router.post('/create-academic-department', (0, validateRequest_1.default)(academicDepartment_validation_1.AcademicDepartmentValidation.createAcademicDepartmentValidationSchema), academicDepartment_controller_1.AcademicDepartmentControllers.createAcademicDepartment);
 router.get('/get-academic-departments', academicDepartment_controller_1.AcademicDepartmentControllers.getAllAcademicDepartment);
 router.get('/get-academic-department/:departmentId', academicDepartment_controller_1.AcademicDepartmentControllers.getSingleAcademicDepartment);
-router.put('/update-academic-department/:departmentId', (0, validateRequest_1.default)(academicDepartment_validation_1.AcademicDepartmentValidation.updateAcademicDepartmentValidationSchema), academicDepartment_controller_1.AcademicDepartmentControllers.updateSingleAcademicDepartment);
+router.patch('/update-academic-department/:departmentId', (0, validateRequest_1.default)(academicDepartment_validation_1.AcademicDepartmentValidation.updateAcademicDepartmentValidationSchema), academicDepartment_controller_1.AcademicDepartmentControllers.updateSingleAcademicDepartment);
 exports.academicDepartmentRoutes = router;

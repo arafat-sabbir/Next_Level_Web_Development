@@ -14,10 +14,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = require("mongoose");
 const AppError_1 = __importDefault(require("../../errors/AppError"));
+// Define the model schema for the academic department
 const academicDepartmentSchema = new mongoose_1.Schema({
-    name: { type: String, required: true, unique: true },
-    academicFaculty: { type: mongoose_1.Schema.Types.ObjectId, required: true, ref: 'academicFaculties' },
+    name: { type: String, required: true, unique: true }, // Name of the department
+    academicFaculty: { type: mongoose_1.Schema.Types.ObjectId, required: true, ref: 'academicFaculties' }, // Reference to the faculty it belongs to
 }, { timestamps: true });
+// Middleware to check if the department already exists before saving
 academicDepartmentSchema.pre('save', function (next) {
     return __awaiter(this, void 0, void 0, function* () {
         const isDepartMentExist = yield AcademicDepartmentModel.findOne({ name: this.name });
@@ -29,6 +31,7 @@ academicDepartmentSchema.pre('save', function (next) {
         }
     });
 });
+// Middleware to check if the department exists before updating
 academicDepartmentSchema.pre('findOneAndUpdate', function (next) {
     return __awaiter(this, void 0, void 0, function* () {
         const query = this.getQuery();
@@ -39,5 +42,6 @@ academicDepartmentSchema.pre('findOneAndUpdate', function (next) {
         next();
     });
 });
+// Create the model using the schema
 const AcademicDepartmentModel = (0, mongoose_1.model)('academicDepartment', academicDepartmentSchema);
 exports.default = AcademicDepartmentModel;

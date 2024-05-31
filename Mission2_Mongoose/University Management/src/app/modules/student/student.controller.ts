@@ -28,8 +28,9 @@ const getSingleStudent = catchAsync(async (req, res, next) => {
 const updateSingleStudent = catchAsync(async (req, res, next) => {
   try {
     const { id } = req.params;
-    const result = await updateSingleStudentFromDb(id);
-    sendResponse(res, { message: 'Student Deleted Successfully', data: result });
+    const { student } = req.body;
+    const result = await updateSingleStudentFromDb(id, student);
+    sendResponse(res, { message: 'Student Updated Successfully', data: result });
   } catch (error) {
     next(error);
   }

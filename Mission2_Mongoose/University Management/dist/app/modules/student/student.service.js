@@ -44,17 +44,9 @@ const getSingleStudentFromDb = (id) => __awaiter(void 0, void 0, void 0, functio
     return result;
 });
 exports.getSingleStudentFromDb = getSingleStudentFromDb;
-const updateSingleStudentFromDb = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield student_model_1.StudentModel.findOne({ id })
-        .populate('user')
-        .populate('admissionSemester')
-        .populate({
-        path: 'academicDepartment',
-        populate: {
-            path: 'academicFaculty',
-        },
-    })
-        .lean();
+const updateSingleStudentFromDb = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(payload);
+    const result = student_model_1.StudentModel.findOneAndUpdate({ id }, payload, { new: true });
     return result;
 });
 exports.updateSingleStudentFromDb = updateSingleStudentFromDb;

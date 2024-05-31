@@ -15,7 +15,7 @@ router.get(
   '/get-academic-semester/:semesterId',
   AcademicSemesterControllers.getSingleAcademicSemester
 );
-router.put(
+router.patch(
   '/update-academic-semester/:semesterId',
   validateRequest(AcademicSemesterValidation.updateAcademicSemesterZodValidationSchema),
   AcademicSemesterControllers.updateSingleAcademicSemester
