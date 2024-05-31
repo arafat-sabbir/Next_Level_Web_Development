@@ -24,12 +24,10 @@ const globalErrorHandler: ErrorRequestHandler = (
   res: Response<TGenericErrorResponse>,
   next
 ) => {
-  // Retrieve the status code from the error object, or default to 500.
+  // Set default values for status code, message, and error sources.
   let statusCode = 500;
   let stack = null;
-  // Retrieve the error message from the error object, or default to 'Something Went Wrong'.
   let message = 'Something Went Wrong';
-
   let errorSources: TErrorSources = [
     {
       path: ' ',
@@ -37,6 +35,7 @@ const globalErrorHandler: ErrorRequestHandler = (
     },
   ];
 
+  // Check the type of error and simplify it accordingly.
   if (error instanceof ZodError) {
     const simplifiedError = handleZodError(error);
     statusCode = simplifiedError?.statusCode;
@@ -81,6 +80,7 @@ const globalErrorHandler: ErrorRequestHandler = (
     ];
     stack = config.NODE_ENV === 'development' && error.stack;
   }
+
   // Return a JSON response with the error message and status code.
   return res.status(statusCode).json({
     statusCode,
@@ -92,3 +92,4 @@ const globalErrorHandler: ErrorRequestHandler = (
 };
 
 export default globalErrorHandler;
+
