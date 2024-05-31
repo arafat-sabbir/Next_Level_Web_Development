@@ -4,6 +4,7 @@ import { AcademicDepartmentServices } from './academicDepartment.service';
 
 const createAcademicDepartment = catchAsync(async (req, res) => {
   const result = await AcademicDepartmentServices.createAcademicDepartmentIntoDb(req.body);
+  console.log(result,"create academic department");
   sendResponse(res, { message: 'Academic Department Created Successfully', data: result });
 });
 

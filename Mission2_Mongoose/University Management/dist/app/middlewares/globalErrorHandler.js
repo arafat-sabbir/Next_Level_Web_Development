@@ -5,7 +5,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const zod_1 = require("zod");
 const config_1 = __importDefault(require("../config"));
-const HandleZodError_1 = require("../errors/HandleZodError");
+const HandleValidationError_1 = __importDefault(require("../errors/HandleValidationError"));
+const HandleZodError_1 = __importDefault(require("../errors/HandleZodError"));
 /**
  * Global error handler for Express.js applications.
  * Handles errors that occur during the request-response cycle.
@@ -29,11 +30,18 @@ const globalErrorHandler = (error, req, res, next) => {
         },
     ];
     if (error instanceof zod_1.ZodError) {
-        const simplifiedError = (0, HandleZodError_1.handleZodError)(error);
+        const simplifiedError = (0, HandleZodError_1.default)(error);
         statusCode = simplifiedError === null || simplifiedError === void 0 ? void 0 : simplifiedError.statusCode;
         message = simplifiedError === null || simplifiedError === void 0 ? void 0 : simplifiedError.message;
         errorSources = simplifiedError === null || simplifiedError === void 0 ? void 0 : simplifiedError.errorSources;
-        stack = config_1.default.NODE_ENV === 'development' ? error.stack : null;
+        stack = config_1.default.NODE_ENV === 'development' && error.stack;
+    }
+    else if ((error.name === 'ValidationError')) {
+        const simplifiedError = (0, HandleValidationError_1.default)(error);
+        statusCode = simplifiedError === null || simplifiedError === void 0 ? void 0 : simplifiedError.statusCode;
+        message = simplifiedError === null || simplifiedError === void 0 ? void 0 : simplifiedError.message;
+        errorSources = simplifiedError === null || simplifiedError === void 0 ? void 0 : simplifiedError.errorSources;
+        stack = config_1.default.NODE_ENV === 'development' && error.stack;
     }
     // Return a JSON response with the error message and status code.
     return res.status(statusCode).json(Object.assign({ success: false, message,

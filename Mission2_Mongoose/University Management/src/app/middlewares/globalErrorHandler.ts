@@ -2,7 +2,8 @@ import { ErrorRequestHandler } from 'express';
 import { ZodError, ZodIssue } from 'zod';
 import { TErrorSources } from '../interface/error';
 import config from '../config';
-import { handleZodError } from '../errors/HandleZodError';
+import handleValidationError from '../errors/HandleValidationError';
+import handleZodError from '../errors/HandleZodError';
 
 /**
  * Global error handler for Express.js applications.
@@ -33,7 +34,13 @@ const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
     statusCode = simplifiedError?.statusCode;
     message = simplifiedError?.message;
     errorSources = simplifiedError?.errorSources;
-    stack = config.NODE_ENV === 'development' ? error.stack : null;
+    stack = config.NODE_ENV === 'development' && error.stack;
+  } else if ((error.name ==='ValidationError')) {
+    const simplifiedError = handleValidationError(error);
+    statusCode = simplifiedError?.statusCode;
+    message = simplifiedError?.message;
+    errorSources = simplifiedError?.errorSources;
+    stack = config.NODE_ENV === 'development' && error.stack;
   }
   // Return a JSON response with the error message and status code.
   return res.status(statusCode).json({

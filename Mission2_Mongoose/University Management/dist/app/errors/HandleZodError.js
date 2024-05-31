@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.handleZodError = void 0;
 /**
  * Handles Zod validation errors and returns a simplified error object.
  *
@@ -15,4 +14,4 @@ const handleZodError = (err) => {
     }));
     return { statusCode, message: 'Validation Error', errorSources };
 };
-exports.handleZodError = handleZodError;
+exports.default = handleZodError;

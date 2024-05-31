@@ -18,6 +18,7 @@ const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
 const academicDepartment_service_1 = require("./academicDepartment.service");
 const createAcademicDepartment = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield academicDepartment_service_1.AcademicDepartmentServices.createAcademicDepartmentIntoDb(req.body);
+    console.log(result, "create academic department");
     (0, sendResponse_1.default)(res, { message: 'Academic Department Created Successfully', data: result });
 }));
 const getAllAcademicDepartment = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
