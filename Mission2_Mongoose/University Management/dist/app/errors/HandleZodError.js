@@ -12,6 +12,6 @@ const handleZodError = (err) => {
         path: issue.path[issue.path.length - 1],
         message: issue.message,
     }));
-    return { statusCode, message: 'Validation Error', errorSources };
+    return { success: false, statusCode, message: 'Validation Error', errorSources };
 };
 exports.default = handleZodError;

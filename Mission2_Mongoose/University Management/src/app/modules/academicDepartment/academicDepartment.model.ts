@@ -11,15 +11,15 @@ const academicDepartmentSchema = new Schema<TAcademicDepartment>(
   { timestamps: true }
 );
 
-// // Middleware to check if the department already exists before saving
-// academicDepartmentSchema.pre('save', async function (next) {
-//   const isDepartMentExist = await AcademicDepartmentModel.findOne({ name: this.name });
-//   if (isDepartMentExist) {
-//     throw new AppError(500, 'Department Already Exist');
-//   } else {
-//     next();
-//   }
-// });
+// Middleware to check if the department already exists before saving
+academicDepartmentSchema.pre('save', async function (next) {
+  const isDepartMentExist = await AcademicDepartmentModel.findOne({ name: this.name });
+  if (isDepartMentExist) {
+    throw new AppError(500, 'Department Already Exist');
+  } else {
+    next();
+  }
+});
 
 // Middleware to check if the department exists before updating
 academicDepartmentSchema.pre('findOneAndUpdate', async function (next) {
