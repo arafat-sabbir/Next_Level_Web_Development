@@ -27,16 +27,23 @@ exports.updateSingleStudentFromDb = exports.deleteSingleStudentFromDb = exports.
 const mongoose_1 = __importDefault(require("mongoose"));
 const student_model_1 = require("./student.model");
 const user_model_1 = require("../user/user.model");
+const student_utils_1 = require("./student.utils");
 const getAllStudentFromDb = (query) => __awaiter(void 0, void 0, void 0, function* () {
+    const queryObj = Object.assign({}, query);
+    console.log(query);
     let searchTerm = ' ';
     if (query.searchTerm) {
         searchTerm = query === null || query === void 0 ? void 0 : query.searchTerm;
     }
-    const result = yield student_model_1.StudentModel.find({
+    const searchQuery = student_model_1.StudentModel.find({
         $or: ['email', 'name.firstName', 'presentAddress'].map((field) => ({
             [field]: { $regex: searchTerm, $options: 'i' },
         })),
-    })
+    });
+    const excludeField = ['searchTerm', 'sort', 'limit', 'page'];
+    excludeField.forEach((field) => delete queryObj[field]);
+    const filterQuery = searchQuery
+        .find(queryObj)
         .populate('user')
         .populate('admissionSemester')
         .populate({
@@ -46,7 +53,24 @@ const getAllStudentFromDb = (query) => __awaiter(void 0, void 0, void 0, functio
         },
     })
         .lean();
-    return result;
+    let sort = 'createdAt';
+    if (query.sort) {
+        sort = query.sort;
+    }
+    const sortQuery = filterQuery.sort(sort);
+    let page = 1;
+    let limit = 10;
+    let skip = 0;
+    if (query.page) {
+        page = Number(query.page);
+    }
+    if (query.limit) {
+        limit = Number(query.limit);
+        skip = limit * (page - 1);
+    }
+    const paginateQuery = sortQuery.skip(skip);
+    const limitQuery = yield paginateQuery.limit(limit);
+    return limitQuery;
 });
 exports.getAllStudentFromDb = getAllStudentFromDb;
 const getSingleStudentFromDb = (id) => __awaiter(void 0, void 0, void 0, function* () {
@@ -65,22 +89,7 @@ const getSingleStudentFromDb = (id) => __awaiter(void 0, void 0, void 0, functio
 exports.getSingleStudentFromDb = getSingleStudentFromDb;
 const updateSingleStudentFromDb = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
     const { name, guardian, localGuardian } = payload, remainingStudentData = __rest(payload, ["name", "guardian", "localGuardian"]);
-    const modifiedUpdatedData = Object.assign({}, remainingStudentData);
-    if (name && Object.keys(name).length) {
-        for (const [key, value] of Object.entries(name)) {
-            modifiedUpdatedData[`name.${key}`] = value;
-        }
-    }
-    if (guardian && Object.keys(guardian).length) {
-        for (const [key, value] of Object.entries(guardian)) {
-            modifiedUpdatedData[`guardian.${key}`] = value;
-        }
-    }
-    if (localGuardian && Object.keys(localGuardian).length) {
-        for (const [key, value] of Object.entries(localGuardian)) {
-            modifiedUpdatedData[`localGuardian.${key}`] = value;
-        }
-    }
+    const modifiedUpdatedData = (0, student_utils_1.updateStudentData)(remainingStudentData, name, guardian, localGuardian);
     const result = yield student_model_1.StudentModel.findOneAndUpdate({ id }, modifiedUpdatedData, {
         new: true,
         runValidators: true,
