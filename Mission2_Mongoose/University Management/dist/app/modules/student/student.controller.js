@@ -18,7 +18,7 @@ const sendResponse_1 = __importDefault(require("../../utils/sendResponse"));
 const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
 const getAllStudent = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = yield (0, student_service_1.getAllStudentFromDb)();
+        const result = yield (0, student_service_1.getAllStudentFromDb)(req.query);
         (0, sendResponse_1.default)(res, { message: 'Students Retrieved Successfully', data: result });
     }
     catch (error) {

@@ -1,10 +1,26 @@
 import mongoose from 'mongoose';
 import { StudentModel } from './student.model';
 import { UserModel } from '../user/user.model';
-import { TStudent } from './student.interface';
+import { TGuardian, TLocalGuardian, TStudent, TUserName } from './student.interface';
+import { updateStudentData } from './student.utils';
 
-const getAllStudentFromDb = async () => {
-  const result = await StudentModel.find()
+const getAllStudentFromDb = async (query: Record<string, unknown>) => {
+  const queryObj = { ...query };
+  console.log(query);
+
+  let searchTerm = ' ';
+  if (query.searchTerm) {
+    searchTerm = query?.searchTerm as string;
+  }
+  const searchQuery = StudentModel.find({
+    $or: ['email', 'name.firstName', 'presentAddress'].map((field) => ({
+      [field]: { $regex: searchTerm, $options: 'i' },
+    })),
+  });
+  const excludeField = ['searchTerm', 'sort', 'limit', 'page'];
+  excludeField.forEach((field) => delete queryObj[field]);
+  const filterQuery = searchQuery
+    .find(queryObj)
     .populate('user')
     .populate('admissionSemester')
     .populate({
@@ -14,7 +30,28 @@ const getAllStudentFromDb = async () => {
       },
     })
     .lean();
-  return result;
+
+  let sort = 'createdAt';
+  if (query.sort) {
+    sort = query.sort as string;
+  }
+  const sortQuery = filterQuery.sort(sort);
+  let page = 1;
+  let limit = 10;
+  let skip = 0;
+  if (query.page) {
+    page = Number(query.page);
+  }
+  if (query.limit) {
+    limit = Number(query.limit);
+    skip = limit * (page - 1);
+  }
+
+  const paginateQuery = sortQuery.skip(skip);
+
+  const limitQuery = await paginateQuery.limit(limit);
+
+  return limitQuery;
 };
 
 const getSingleStudentFromDb = async (id: string) => {
@@ -31,8 +68,17 @@ const getSingleStudentFromDb = async (id: string) => {
   return result;
 };
 const updateSingleStudentFromDb = async (id: string, payload: Partial<TStudent>) => {
-  console.log(payload);
-  const result = StudentModel.findOneAndUpdate({ id },payload, { new: true });
+  const { name, guardian, localGuardian, ...remainingStudentData } = payload;
+  const modifiedUpdatedData = updateStudentData(
+    remainingStudentData,
+    name as TUserName,
+    guardian as TGuardian,
+    localGuardian as TLocalGuardian
+  );
+  const result = await StudentModel.findOneAndUpdate({ id }, modifiedUpdatedData, {
+    new: true,
+    runValidators: true,
+  });
   return result;
 };
 const deleteSingleStudentFromDb = async (id: string) => {

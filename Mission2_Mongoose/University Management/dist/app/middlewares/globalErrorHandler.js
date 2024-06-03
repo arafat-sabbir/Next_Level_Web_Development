@@ -21,10 +21,9 @@ const AppError_1 = __importDefault(require("../errors/AppError"));
  * @return {Response} The JSON response containing the error message and status code.
  */
 const globalErrorHandler = (error, req, res, next) => {
-    // Retrieve the status code from the error object, or default to 500.
+    // Set default values for status code, message, and error sources.
     let statusCode = 500;
     let stack = null;
-    // Retrieve the error message from the error object, or default to 'Something Went Wrong'.
     let message = 'Something Went Wrong';
     let errorSources = [
         {
@@ -32,6 +31,7 @@ const globalErrorHandler = (error, req, res, next) => {
             message: 'Something Went Wrong',
         },
     ];
+    // Check the type of error and simplify it accordingly.
     if (error instanceof zod_1.ZodError) {
         const simplifiedError = (0, HandleZodError_1.default)(error);
         statusCode = simplifiedError === null || simplifiedError === void 0 ? void 0 : simplifiedError.statusCode;

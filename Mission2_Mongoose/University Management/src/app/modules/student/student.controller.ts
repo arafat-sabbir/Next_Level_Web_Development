@@ -9,7 +9,7 @@ import catchAsync from '../../utils/catchAsync';
 
 const getAllStudent = catchAsync(async (req, res, next) => {
   try {
-    const result = await getAllStudentFromDb();
+    const result = await getAllStudentFromDb(req.query);
     sendResponse(res, { message: 'Students Retrieved Successfully', data: result });
   } catch (error) {
     next(error);
