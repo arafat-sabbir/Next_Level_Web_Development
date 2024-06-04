@@ -29,8 +29,8 @@ const student_model_1 = require("./student.model");
 const user_model_1 = require("../user/user.model");
 const student_utils_1 = require("./student.utils");
 const getAllStudentFromDb = (query) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a, _b;
     const queryObj = Object.assign({}, query);
-    console.log(query);
     let searchTerm = ' ';
     if (query.searchTerm) {
         searchTerm = query === null || query === void 0 ? void 0 : query.searchTerm;
@@ -40,8 +40,9 @@ const getAllStudentFromDb = (query) => __awaiter(void 0, void 0, void 0, functio
             [field]: { $regex: searchTerm, $options: 'i' },
         })),
     });
-    const excludeField = ['searchTerm', 'sort', 'limit', 'page'];
+    const excludeField = ['searchTerm', 'sort', 'limit', 'page', 'fields'];
     excludeField.forEach((field) => delete queryObj[field]);
+    console.log(query, queryObj);
     const filterQuery = searchQuery
         .find(queryObj)
         .populate('user')
@@ -69,8 +70,15 @@ const getAllStudentFromDb = (query) => __awaiter(void 0, void 0, void 0, functio
         skip = limit * (page - 1);
     }
     const paginateQuery = sortQuery.skip(skip);
-    const limitQuery = yield paginateQuery.limit(limit);
-    return limitQuery;
+    const limitQuery = paginateQuery.limit(limit);
+    // field limiting for response
+    let fields = '-__v';
+    if (query.fields) {
+        fields = (_b = (_a = query.fields) === null || _a === void 0 ? void 0 : _a.split(',')) === null || _b === void 0 ? void 0 : _b.join(' ');
+    }
+    console.log(fields);
+    const fieldQuery = yield limitQuery.select(fields);
+    return fieldQuery;
 });
 exports.getAllStudentFromDb = getAllStudentFromDb;
 const getSingleStudentFromDb = (id) => __awaiter(void 0, void 0, void 0, function* () {

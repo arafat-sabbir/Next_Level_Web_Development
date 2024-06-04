@@ -155,8 +155,8 @@ studentSchema.pre('aggregate', function (next) {
   next();
 });
 
-// studentSchema.virtual('fullName').get(function () {
-//   return `${this.name.firstName} ${this.name.middleName} ${this.name.lastName} `;
-// });
+studentSchema.virtual('fullName').get(function () {
+  return `${this.name?.firstName} ${this.name?.middleName} ${this.name?.lastName} `;
+});
 
 export const StudentModel = model<TStudent>('Student', studentSchema);

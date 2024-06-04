@@ -6,7 +6,6 @@ import { updateStudentData } from './student.utils';
 
 const getAllStudentFromDb = async (query: Record<string, unknown>) => {
   const queryObj = { ...query };
-  console.log(query);
 
   let searchTerm = ' ';
   if (query.searchTerm) {
@@ -17,8 +16,9 @@ const getAllStudentFromDb = async (query: Record<string, unknown>) => {
       [field]: { $regex: searchTerm, $options: 'i' },
     })),
   });
-  const excludeField = ['searchTerm', 'sort', 'limit', 'page'];
+  const excludeField = ['searchTerm', 'sort', 'limit', 'page', 'fields'];
   excludeField.forEach((field) => delete queryObj[field]);
+  console.log(query, queryObj);
   const filterQuery = searchQuery
     .find(queryObj)
     .populate('user')
@@ -49,9 +49,15 @@ const getAllStudentFromDb = async (query: Record<string, unknown>) => {
 
   const paginateQuery = sortQuery.skip(skip);
 
-  const limitQuery = await paginateQuery.limit(limit);
-
-  return limitQuery;
+  const limitQuery = paginateQuery.limit(limit);
+  // field limiting for response
+  let fields = '-__v';
+  if (query.fields) {
+    fields = (query.fields as string)?.split(',')?.join(' ');
+  }
+  console.log(fields);
+  const fieldQuery = await limitQuery.select(fields);
+  return fieldQuery;
 };
 
 const getSingleStudentFromDb = async (id: string) => {

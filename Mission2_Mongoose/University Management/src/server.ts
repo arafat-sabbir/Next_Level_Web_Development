@@ -6,11 +6,11 @@ import { Server } from 'http';
 let server: Server;
 async function main() {
   try {
-    await mongoose.connect(config.database_url as string);
-    console.log('Connected To Database Successfully');
     server = app.listen(config.port, () => {
       console.log(`Example app listening on port ${config.port}`);
     });
+    await mongoose.connect(config.database_url as string);
+    console.log('Connected To Database Successfully');
   } catch (error) {
     console.log(error, 'from');
   }

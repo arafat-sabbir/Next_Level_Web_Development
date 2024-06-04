@@ -146,7 +146,8 @@ studentSchema.pre('aggregate', function (next) {
     this.pipeline().unshift({ $match: { isDeleted: { $ne: true } } });
     next();
 });
-// studentSchema.virtual('fullName').get(function () {
-//   return `${this.name.firstName} ${this.name.middleName} ${this.name.lastName} `;
-// });
+studentSchema.virtual('fullName').get(function () {
+    var _a, _b, _c;
+    return `${(_a = this.name) === null || _a === void 0 ? void 0 : _a.firstName} ${(_b = this.name) === null || _b === void 0 ? void 0 : _b.middleName} ${(_c = this.name) === null || _c === void 0 ? void 0 : _c.lastName} `;
+});
 exports.StudentModel = (0, mongoose_1.model)('Student', studentSchema);
