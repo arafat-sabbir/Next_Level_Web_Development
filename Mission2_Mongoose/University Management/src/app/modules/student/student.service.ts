@@ -6,57 +6,12 @@ import { updateStudentData } from './student.utils';
 import QueryBuilder from '../../../app/builder/QueryBuilder';
 import { searchableFields } from './student.constant';
 
+/**
+ * Function to get all students from the database.
+ * @param query - The query parameters for filtering the results.
+ * @returns A Promise that resolves to an array of students.
+ */
 const getAllStudentFromDb = async (query: Record<string, unknown>) => {
-  // const queryObj = { ...query };
-  // let searchTerm = ' ';
-  // if (query.searchTerm) {
-  //   searchTerm = query?.searchTerm as string;
-  // }
-  // const searchableFields = ['email', 'name.firstName', 'presentAddress'];
-  // const searchQuery = StudentModel.find({
-  //   $or: searchableFields.map((field) => ({
-  //     [field]: { $regex: searchTerm, $options: 'i' },
-  //   })),
-  // });
-  // const excludeField = ['searchTerm', 'sort', 'limit', 'page', 'fields'];
-  // excludeField.forEach((field) => delete queryObj[field]);
-  // const filterQuery = searchQuery
-  //   .find(queryObj)
-  //   .populate('user')
-  //   .populate('admissionSemester')
-  //   .populate({
-  //     path: 'academicDepartment',
-  //     populate: {
-  //       path: 'academicFaculty',
-  //     },
-  //   })
-  //   .lean();
-  // let sort = 'createdAt';
-  // if (query.sort) {
-  //   sort = query.sort as string;
-  // }
-  // const sortQuery = filterQuery.sort(sort);
-  // let page = 1;
-  // let limit = 10;
-  // let skip = 0;
-  // if (query.page) {
-  //   page = Number(query.page);
-  // }
-  // if (query.limit) {
-  //   limit = Number(query.limit);
-  //   skip = limit * (page - 1);
-  // }
-  // const paginateQuery = sortQuery.skip(skip);
-  // const limitQuery = paginateQuery.limit(limit);
-  // field limiting for response
-  // let fields = '-__v';
-  // if (query.fields) {
-  //   fields = (query.fields as string)?.split(',')?.join(' ');
-  // }
-  // console.log(fields);
-  // const fieldQuery = await limitQuery.select(fields);
-  // return fieldQuery;
-
   const studentQuery = new QueryBuilder(
     StudentModel.find()
       .populate('user')
@@ -74,6 +29,11 @@ const getAllStudentFromDb = async (query: Record<string, unknown>) => {
   return result;
 };
 
+/**
+ * Function to get a single student from the database.
+ * @param id - The ID of the student to retrieve.
+ * @returns A Promise that resolves to the student object.
+ */
 const getSingleStudentFromDb = async (id: string) => {
   const result = await StudentModel.findOne({ id })
     .populate('user')
@@ -87,6 +47,13 @@ const getSingleStudentFromDb = async (id: string) => {
     .lean();
   return result;
 };
+
+/**
+ * Function to update a single student in the database.
+ * @param id - The ID of the student to update.
+ * @param payload - The payload containing the updated data.
+ * @returns A Promise that resolves to the updated student object.
+ */
 const updateSingleStudentFromDb = async (id: string, payload: Partial<TStudent>) => {
   const { name, guardian, localGuardian, ...remainingStudentData } = payload;
   const modifiedUpdatedData = updateStudentData(
@@ -101,6 +68,12 @@ const updateSingleStudentFromDb = async (id: string, payload: Partial<TStudent>)
   });
   return result;
 };
+
+/**
+ * Function to delete a single student from the database.
+ * @param id - The ID of the student to delete.
+ * @returns A Promise that resolves to an object containing the deleted student and user.
+ */
 const deleteSingleStudentFromDb = async (id: string) => {
   const session = await mongoose.startSession();
   try {
@@ -137,3 +110,4 @@ export {
   deleteSingleStudentFromDb,
   updateSingleStudentFromDb,
 };
+
