@@ -51,10 +51,10 @@ const createStudentOnDb = async (password: string, payload: TStudent) => {
     await session.commitTransaction();
     await session.endSession();
     return newStudent;
-  } catch (error:any) {
+  } catch (error: any) {
     await session.abortTransaction();
     await session.endSession();
-    throw new Error(error.message)
+    throw new Error(error.message);
   }
 };
 

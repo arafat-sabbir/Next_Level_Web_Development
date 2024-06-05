@@ -21,13 +21,11 @@ const getAllFacultiesFromDB = async (query: Record<string, unknown>) => {
 
 const getSingleFacultyFromDB = async (id: string) => {
   const result = await Faculty.findById(id).populate('academicDepartment');
-
   return result;
 };
 
 const updateFacultyIntoDB = async (id: string, payload: Partial<TFaculty>) => {
   const { name, ...remainingFacultyData } = payload;
-
   const modifiedUpdatedData: Record<string, unknown> = {
     ...remainingFacultyData,
   };
@@ -37,7 +35,6 @@ const updateFacultyIntoDB = async (id: string, payload: Partial<TFaculty>) => {
       modifiedUpdatedData[`name.${key}`] = value;
     }
   }
-
   const result = await Faculty.findByIdAndUpdate(id, modifiedUpdatedData, {
     new: true,
     runValidators: true,
@@ -50,17 +47,14 @@ const deleteFacultyFromDB = async (id: string) => {
 
   try {
     session.startTransaction();
-
     const deletedFaculty = await Faculty.findByIdAndUpdate(
       id,
       { isDeleted: true },
       { new: true, session }
     );
-
     if (!deletedFaculty) {
       throw new AppError(400, 'Failed to delete faculty');
     }
-
     // get user _id from deletedFaculty
     const userId = deletedFaculty.user;
 
@@ -73,10 +67,8 @@ const deleteFacultyFromDB = async (id: string) => {
     if (!deletedUser) {
       throw new AppError(400, 'Failed to delete user');
     }
-
     await session.commitTransaction();
     await session.endSession();
-
     return deletedFaculty;
   } catch (err: any) {
     await session.abortTransaction();
@@ -91,4 +83,3 @@ export const FacultyServices = {
   updateFacultyIntoDB,
   deleteFacultyFromDB,
 };
-

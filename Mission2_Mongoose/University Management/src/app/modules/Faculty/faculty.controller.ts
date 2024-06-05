@@ -48,4 +48,3 @@ export const FacultyControllers = {
   deleteFaculty,
   updateFaculty,
 };
-

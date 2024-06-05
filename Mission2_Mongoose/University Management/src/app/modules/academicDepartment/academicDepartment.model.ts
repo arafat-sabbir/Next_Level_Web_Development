@@ -35,4 +35,3 @@ academicDepartmentSchema.pre('findOneAndUpdate', async function (next) {
 const AcademicDepartmentModel = model('academicDepartment', academicDepartmentSchema);
 
 export default AcademicDepartmentModel;
-

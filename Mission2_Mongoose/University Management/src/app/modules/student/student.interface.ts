@@ -22,7 +22,7 @@ export interface TLocalGuardian {
 }
 
 export interface TStudent {
-  id?: string; 
+  id?: string;
   user: Types.ObjectId;
   name: TUserName;
   dateOfBirth: Date;
@@ -37,8 +37,8 @@ export interface TStudent {
   localGuardian: TLocalGuardian;
   profileImage?: string;
   admissionSemester: Types.ObjectId;
-  academicDepartment:Types.ObjectId
-  isDeleted:boolean;
+  academicDepartment: Types.ObjectId;
+  isDeleted: boolean;
 }
 
 type StudentMethods = {

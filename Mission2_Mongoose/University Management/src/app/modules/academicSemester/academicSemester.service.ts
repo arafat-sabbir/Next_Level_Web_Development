@@ -26,11 +26,7 @@ const updateSingleAcademicSemesterFromDb = async (
       throw new Error(`Invalid Code For Name ${payload.name}`);
     }
   }
-  const result = await AcademicSemesterModel.findByIdAndUpdate(
-    { _id: id },
-    payload ,
-    { new: true }
-  );
+  const result = await AcademicSemesterModel.findByIdAndUpdate({ _id: id }, payload, { new: true });
   return result;
 };
 

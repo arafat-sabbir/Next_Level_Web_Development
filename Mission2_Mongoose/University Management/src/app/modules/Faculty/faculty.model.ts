@@ -61,7 +61,7 @@ const facultySchema = new Schema<TFaculty, FacultyModel>(
       type: String,
       required: [true, 'Emergency contact number is required'],
     },
-    bloogGroup: {
+    bloodGroup: {
       type: String,
       enum: {
         values: BloodGroup,
@@ -91,18 +91,12 @@ const facultySchema = new Schema<TFaculty, FacultyModel>(
     toJSON: {
       virtuals: true,
     },
-  },
+  }
 );
 
 // generating full name
 facultySchema.virtual('fullName').get(function () {
-  return (
-    this?.name?.firstName +
-    '' +
-    this?.name?.middleName +
-    '' +
-    this?.name?.lastName
-  );
+  return this?.name?.firstName + '' + this?.name?.middleName + '' + this?.name?.lastName;
 });
 
 // filter out deleted documents

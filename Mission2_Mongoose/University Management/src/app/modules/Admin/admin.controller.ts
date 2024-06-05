@@ -48,4 +48,3 @@ export const AdminControllers = {
   deleteAdmin,
   updateAdmin,
 };
-
