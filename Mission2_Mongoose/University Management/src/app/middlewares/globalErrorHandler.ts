@@ -4,7 +4,7 @@ import { TErrorSources, TGenericErrorResponse } from '../interface/error';
 import config from '../config';
 import handleValidationError from '../errors/HandleValidationError';
 import handleZodError from '../errors/HandleZodError';
-import handleCastError from './HandleCastError';
+import handleCastError from '../errors/HandleCastError';
 import handleDuplicateError from '../errors/HandleDuplicateError';
 import AppError from '../errors/AppError';
 
