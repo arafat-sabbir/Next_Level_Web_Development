@@ -1,4 +1,3 @@
-
 import QueryBuilder from '../../builder/QueryBuilder';
 import AppError from '../../errors/AppError';
 import CourseModel from './course.model';
@@ -50,7 +49,7 @@ const deleteCourseFromDB = async (id: string) => {
   return deletedCourse;
 };
 
-export const AdminServices = {
+export const CourseServices = {
   getAllCoursesFromDB,
   getSingleCourseFromDB,
   deleteCourseFromDB,
