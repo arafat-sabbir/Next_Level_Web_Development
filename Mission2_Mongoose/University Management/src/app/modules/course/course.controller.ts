@@ -1,6 +1,11 @@
-import catchAsync from 'src/app/utils/catchAsync';
+import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
 import { CourseServices } from './course.service';
+
+const addNewCourse = catchAsync(async (req, res) => {
+  const result = await CourseServices.createCourseIntoDb(req.body);
+  sendResponse(res, { message: 'Course is created successfully', data: result });
+});
 
 const getSingleCourse = catchAsync(async (req, res) => {
   const { id } = req.params;
@@ -45,4 +50,5 @@ export const CourseControllers = {
   getAllCourses,
   getSingleCourse,
   deleteCourse,
+  addNewCourse
 };

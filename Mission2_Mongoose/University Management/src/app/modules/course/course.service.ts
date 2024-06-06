@@ -2,9 +2,15 @@ import QueryBuilder from '../../builder/QueryBuilder';
 import AppError from '../../errors/AppError';
 import CourseModel from './course.model';
 import { CourseSearchableFields } from './course.constant';
+import { TCourse } from './course.interface';
 
 const getAllCoursesFromDB = async (query: Record<string, unknown>) => {
-  const courseQuery = new QueryBuilder(CourseModel.find(), query)
+  const courseQuery = new QueryBuilder(
+    CourseModel.find().populate({
+      path: 'preRequisiteCourses.course',
+    }),
+    query
+  )
     .search(CourseSearchableFields)
     .filter()
     .sort()
@@ -15,8 +21,15 @@ const getAllCoursesFromDB = async (query: Record<string, unknown>) => {
   return result;
 };
 
+const createCourseIntoDb = async (payload: TCourse): Promise<TCourse> => {
+  const result = await CourseModel.create(payload);
+  return result;
+};
+
 const getSingleCourseFromDB = async (id: string) => {
-  const result = await CourseModel.findById(id);
+  const result = await CourseModel.findById(id).populate({
+    path: 'preRequisiteCourses.course',
+  });
   return result;
 };
 
@@ -53,4 +66,5 @@ export const CourseServices = {
   getAllCoursesFromDB,
   getSingleCourseFromDB,
   deleteCourseFromDB,
+  createCourseIntoDb,
 };
