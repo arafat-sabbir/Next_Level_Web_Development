@@ -14,10 +14,10 @@ const courseSchema = new Schema<TCourse>({
   prefix: { type: String, required: true },
   code: { type: Number, required: true },
   credit: { type: Number, required: true },
+  isDeleted: { type: Boolean, default: false },
   preRequisiteCourses: [
     new Schema<TPreRequisiteCourse>({
       course: { type: Schema.Types.ObjectId, ref: 'Course', required: true },
-      isDeleted: { type: Boolean, default: false },
     }),
   ],
 });
@@ -28,4 +28,3 @@ const courseSchema = new Schema<TCourse>({
  */
 const CourseModel = model<TCourse>('Course', courseSchema);
 export default CourseModel;
-
