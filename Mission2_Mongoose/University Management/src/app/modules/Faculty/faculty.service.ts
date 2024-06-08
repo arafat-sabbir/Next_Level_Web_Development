@@ -2,15 +2,17 @@
 import mongoose from 'mongoose';
 import { FacultySearchableFields } from './faculty.constant';
 import { TFaculty } from './faculty.interface';
-import { Faculty } from './faculty.model';
+import { FacultyModel } from './faculty.model';
 import QueryBuilder from 'src/app/builder/QueryBuilder';
 import AppError from '../../errors/AppError';
 import { UserModel } from '../user/user.model';
 
-
-
+const addNewFacultyIntoDB = async (payload: TFaculty) => {
+  const result = await FacultyModel.create(payload);
+  return result;
+};
 const getAllFacultiesFromDB = async (query: Record<string, unknown>) => {
-  const facultyQuery = new QueryBuilder(Faculty.find().populate('academicDepartment'), query)
+  const facultyQuery = new QueryBuilder(FacultyModel.find().populate('academicDepartment'), query)
     .search(FacultySearchableFields)
     .filter()
     .sort()
@@ -22,7 +24,7 @@ const getAllFacultiesFromDB = async (query: Record<string, unknown>) => {
 };
 
 const getSingleFacultyFromDB = async (id: string) => {
-  const result = await Faculty.findById(id).populate('academicDepartment');
+  const result = await FacultyModel.findById(id).populate('academicDepartment');
   return result;
 };
 
@@ -37,7 +39,7 @@ const updateFacultyIntoDB = async (id: string, payload: Partial<TFaculty>) => {
       modifiedUpdatedData[`name.${key}`] = value;
     }
   }
-  const result = await Faculty.findByIdAndUpdate(id, modifiedUpdatedData, {
+  const result = await FacultyModel.findByIdAndUpdate(id, modifiedUpdatedData, {
     new: true,
     runValidators: true,
   });
@@ -49,7 +51,7 @@ const deleteFacultyFromDB = async (id: string) => {
 
   try {
     session.startTransaction();
-    const deletedFaculty = await Faculty.findByIdAndUpdate(
+    const deletedFaculty = await FacultyModel.findByIdAndUpdate(
       id,
       { isDeleted: true },
       { new: true, session }
@@ -81,6 +83,7 @@ const deleteFacultyFromDB = async (id: string) => {
 
 export const FacultyServices = {
   getAllFacultiesFromDB,
+  addNewFacultyIntoDB,
   getSingleFacultyFromDB,
   updateFacultyIntoDB,
   deleteFacultyFromDB,

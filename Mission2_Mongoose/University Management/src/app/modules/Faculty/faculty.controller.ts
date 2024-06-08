@@ -2,6 +2,11 @@ import catchAsync from 'src/app/utils/catchAsync';
 import { FacultyServices } from './faculty.service';
 import sendResponse from 'src/app/utils/sendResponse';
 
+const addNewFaculty = catchAsync(async (req, res) => {
+  const result = await FacultyServices.addNewFacultyIntoDB(req.body);
+  sendResponse(res, { message: 'Faculty is created Successfully', data: result });
+});
+
 const getSingleFaculty = catchAsync(async (req, res) => {
   const { id } = req.params;
   const result = await FacultyServices.getSingleFacultyFromDB(id);
@@ -44,6 +49,7 @@ const deleteFaculty = catchAsync(async (req, res) => {
 
 export const FacultyControllers = {
   getAllFaculties,
+  addNewFaculty,
   getSingleFaculty,
   deleteFaculty,
   updateFaculty,
