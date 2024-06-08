@@ -1,9 +1,10 @@
 import QueryBuilder from '../../builder/QueryBuilder';
 import AppError from '../../errors/AppError';
-import CourseModel from './course.model';
+import { CourseFacultyModel, CourseModel } from './course.model';
 import { CourseSearchableFields } from './course.constant';
-import { TCourse } from './course.interface';
+import { TCourse, TCourseFaculty } from './course.interface';
 import mongoose, { Types } from 'mongoose';
+import { assert } from 'joi';
 const getAllCoursesFromDB = async (query: Record<string, unknown>) => {
   const courseQuery = new QueryBuilder(
     CourseModel.find().populate({
@@ -74,8 +75,7 @@ const updateCourseIntoDB = async (id: string, payload: Partial<TCourse>) => {
       }
 
       // Filter out the new course fields
-      const newPreRequisites = preRequisiteCourses
-        .filter((el) => el.course && !el.isDeleted)
+      const newPreRequisites = preRequisiteCourses.filter((el) => el.course && !el.isDeleted);
       if (newPreRequisites.length > 0) {
         const newPreRequisiteCourses = await CourseModel.findByIdAndUpdate(
           id,
@@ -113,11 +113,22 @@ const deleteCourseFromDB = async (id: string) => {
   }
   return deletedCourse;
 };
-
+const assignFacultiesToCourseIntoDb = async (
+  id: Pick<TCourseFaculty, 'course'>,
+  payload: Omit<TCourseFaculty, 'course'>
+) => {
+  const result = await CourseFacultyModel.findByIdAndUpdate(
+    id,
+    { $addToSet: { faculties: { $each: payload } } },
+    { upsert: true, new: true }
+  );
+  return result;
+};
 export const CourseServices = {
   getAllCoursesFromDB,
   getSingleCourseFromDB,
   deleteCourseFromDB,
   createCourseIntoDb,
   updateCourseIntoDB,
+  assignFacultiesToCourseIntoDb,
 };

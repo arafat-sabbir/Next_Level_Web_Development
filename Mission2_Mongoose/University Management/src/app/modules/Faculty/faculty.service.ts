@@ -7,6 +7,8 @@ import QueryBuilder from 'src/app/builder/QueryBuilder';
 import AppError from '../../errors/AppError';
 import { UserModel } from '../user/user.model';
 
+
+
 const getAllFacultiesFromDB = async (query: Record<string, unknown>) => {
   const facultyQuery = new QueryBuilder(Faculty.find().populate('academicDepartment'), query)
     .search(FacultySearchableFields)
