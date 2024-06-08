@@ -27,11 +27,10 @@ const getAllCourses = catchAsync(async (req, res) => {
 
 const updateCourse = catchAsync(async (req, res) => {
   const { id } = req.params;
-  const { admin } = req.body;
-  const result = await CourseServices.updateCourseIntoDB(id, admin);
+  const result = await CourseServices.updateCourseIntoDB(id, req.body);
 
   sendResponse(res, {
-    message: 'Admin is updated successfully',
+    message: 'Course updated successfully',
     data: result,
   });
 });
