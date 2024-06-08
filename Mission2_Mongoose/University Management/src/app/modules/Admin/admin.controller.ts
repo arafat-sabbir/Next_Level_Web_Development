@@ -1,4 +1,4 @@
-import catchAsync from 'src/app/utils/catchAsync';
+import catchAsync from '../../utils/catchAsync';
 import { AdminServices } from './admin.service';
 import sendResponse from '../../utils/sendResponse';
 

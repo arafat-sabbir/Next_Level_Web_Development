@@ -95,7 +95,7 @@ const studentSchema = new Schema<TStudent>(
       type: String,
       required: [true, 'Contact Number is required and cannot be empty'],
     },
-    emergencyContactNumber: {
+    emergencyContactNo: {
       type: String,
       required: [true, 'Emergency Contact Number is required and cannot be empty'],
     },
@@ -119,7 +119,7 @@ const studentSchema = new Schema<TStudent>(
       type: localGuardianSchema,
       required: [true, 'Local Guardian information is required and cannot be empty'],
     },
-    profileImage: { type: String },
+    profileImg: { type: String },
     admissionSemester: {
       type: Schema.Types.ObjectId,
       required: [true, 'Admission Semester is required and cannot be empty'],
