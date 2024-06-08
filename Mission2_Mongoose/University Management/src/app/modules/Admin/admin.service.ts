@@ -3,12 +3,12 @@ import mongoose from 'mongoose';
 import QueryBuilder from '../../builder/QueryBuilder';
 import { AdminSearchableFields } from './admin.constant';
 import { TAdmin } from './admin.interface';
-import { Admin } from './admin.model';
+import { AdminModel } from './admin.model';
 import { UserModel } from '../user/user.model';
 import AppError from '../../errors/AppError';
 
 const getAllAdminsFromDB = async (query: Record<string, unknown>) => {
-  const adminQuery = new QueryBuilder(Admin.find(), query)
+  const adminQuery = new QueryBuilder(AdminModel.find(), query)
     .search(AdminSearchableFields)
     .filter()
     .sort()
@@ -20,7 +20,7 @@ const getAllAdminsFromDB = async (query: Record<string, unknown>) => {
 };
 
 const getSingleAdminFromDB = async (id: string) => {
-  const result = await Admin.findById(id);
+  const result = await AdminModel.findById(id);
   return result;
 };
 
@@ -37,7 +37,7 @@ const updateAdminIntoDB = async (id: string, payload: Partial<TAdmin>) => {
     }
   }
 
-  const result = await Admin.findByIdAndUpdate({ id }, modifiedUpdatedData, {
+  const result = await AdminModel.findByIdAndUpdate({ id }, modifiedUpdatedData, {
     new: true,
     runValidators: true,
   });
@@ -50,7 +50,7 @@ const deleteAdminFromDB = async (id: string) => {
   try {
     session.startTransaction();
 
-    const deletedAdmin = await Admin.findByIdAndUpdate(
+    const deletedAdmin = await AdminModel.findByIdAndUpdate(
       id,
       { isDeleted: true },
       { new: true, session }

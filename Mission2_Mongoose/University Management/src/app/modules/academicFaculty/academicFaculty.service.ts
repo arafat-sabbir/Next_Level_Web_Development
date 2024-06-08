@@ -1,10 +1,7 @@
 import { TAcademicFaculty } from './academicFaculty.interface';
 import AcademicFacultyModel from './academicFaculty.model';
 
-const createAcademicFacultyIntoDb = async (payload: TAcademicFaculty) => {
-  const result = await AcademicFacultyModel.create(payload);
-  return result;
-};
+
 const getAllAcademicFacultyFromDb = async () => {
   const result = await AcademicFacultyModel.find();
   return result;
@@ -25,6 +22,5 @@ const updateSingleAcademicFacultyFromDb = async (
 export const AcademicFacultyServices = {
   getAllAcademicFacultyFromDb,
   getSingleAcademicFacultyFromDb,
-  createAcademicFacultyIntoDb,
   updateSingleAcademicFacultyFromDb,
 };

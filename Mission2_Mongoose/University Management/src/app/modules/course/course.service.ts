@@ -3,8 +3,7 @@ import AppError from '../../errors/AppError';
 import { CourseFacultyModel, CourseModel } from './course.model';
 import { CourseSearchableFields } from './course.constant';
 import { TCourse, TCourseFaculty } from './course.interface';
-import mongoose, { Types } from 'mongoose';
-import { assert } from 'joi';
+import mongoose from 'mongoose';
 const getAllCoursesFromDB = async (query: Record<string, unknown>) => {
   const courseQuery = new QueryBuilder(
     CourseModel.find().populate({
@@ -114,7 +113,7 @@ const deleteCourseFromDB = async (id: string) => {
   return deletedCourse;
 };
 const assignFacultiesToCourseIntoDb = async (
-  id: Pick<TCourseFaculty, 'course'>,
+  id: string,
   payload: Omit<TCourseFaculty, 'course'>
 ) => {
   const result = await CourseFacultyModel.findByIdAndUpdate(

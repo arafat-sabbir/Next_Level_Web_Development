@@ -1,11 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import mongoose from 'mongoose';
-import { FacultySearchableFields } from './faculty.constant';
-import { TFaculty } from './faculty.interface';
-import { FacultyModel } from './faculty.model';
-import QueryBuilder from 'src/app/builder/QueryBuilder';
-import AppError from '../../errors/AppError';
-import { UserModel } from '../user/user.model';
+
+import QueryBuilder from "../../builder/QueryBuilder";
+import { TFaculty } from "./faculty.interface";
+import { FacultyModel } from "./faculty.model";
+import { FacultySearchableFields } from "./faculty.constant";
+import mongoose from "mongoose";
+import AppError from "../../errors/AppError"; // import { AppError } from "../../app/errors/AppError";
+import { UserModel } from "../user/user.model";
+
 
 const addNewFacultyIntoDB = async (payload: TFaculty) => {
   const result = await FacultyModel.create(payload);
