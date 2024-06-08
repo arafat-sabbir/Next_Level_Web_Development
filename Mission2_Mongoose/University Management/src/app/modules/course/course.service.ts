@@ -33,25 +33,25 @@ const getSingleCourseFromDB = async (id: string) => {
   return result;
 };
 
-// const updateCourseIntoDB = async (id: string, payload: Partial<TCourse>) => {
-//   const { name, ...remainingAdminData } = payload;
+const updateCourseIntoDB = async (id: string, payload: Partial<TCourse>) => {
+  const { name, ...remainingAdminData } = payload;
 
-//   const modifiedUpdatedData: Record<string, unknown> = {
-//     ...remainingAdminData,
-//   };
+  const modifiedUpdatedData: Record<string, unknown> = {
+    ...remainingAdminData,
+  };
 
-//   if (name && Object.keys(name).length) {
-//     for (const [key, value] of Object.entries(name)) {
-//       modifiedUpdatedData[`name.${key}`] = value;
-//     }
-//   }
+  if (name && Object.keys(name).length) {
+    for (const [key, value] of Object.entries(name)) {
+      modifiedUpdatedData[`name.${key}`] = value;
+    }
+  }
 
-//   const result = await Admin.findByIdAndUpdate({ id }, modifiedUpdatedData, {
-//     new: true,
-//     runValidators: true,
-//   });
-//   return result;
-// };
+  const result = await CourseModel.findByIdAndUpdate({ id }, modifiedUpdatedData, {
+    new: true,
+    runValidators: true,
+  });
+  return result;
+};
 
 const deleteCourseFromDB = async (id: string) => {
   const deletedCourse = await CourseModel.findByIdAndUpdate(id, { isDeleted: true }, { new: true });
@@ -67,4 +67,5 @@ export const CourseServices = {
   getSingleCourseFromDB,
   deleteCourseFromDB,
   createCourseIntoDb,
+  updateCourseIntoDB,
 };

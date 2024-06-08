@@ -25,16 +25,16 @@ const getAllCourses = catchAsync(async (req, res) => {
   });
 });
 
-// const updateAdmin = catchAsync(async (req, res) => {
-//   const { id } = req.params;
-//   const { admin } = req.body;
-//   const result = await CourseServices.updateAdminIntoDB(id, admin);
+const updateCourse = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const { admin } = req.body;
+  const result = await CourseServices.updateCourseIntoDB(id, admin);
 
-//   sendResponse(res, {
-//     message: 'Admin is updated successfully',
-//     data: result,
-//   });
-// });
+  sendResponse(res, {
+    message: 'Admin is updated successfully',
+    data: result,
+  });
+});
 
 const deleteCourse = catchAsync(async (req, res) => {
   const { id } = req.params;
@@ -50,5 +50,6 @@ export const CourseControllers = {
   getAllCourses,
   getSingleCourse,
   deleteCourse,
-  addNewCourse
+  addNewCourse,
+  updateCourse,
 };

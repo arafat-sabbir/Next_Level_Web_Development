@@ -15,16 +15,7 @@ const createCourseValidationSchema = z.object({
   }),
 });
 
-const updateCourseValidationSchema = z.object({
-  body: z.object({
-    title: z.string().optional(),
-    prefix: z.string().optional(),
-    code: z.number().optional(),
-    credit: z.number(),
-    description: z.string().optional(),
-    preRequisiteCourses: z.array(preRequisiteCourseValidationSchema).optional(),
-  }),
-});
+const updateCourseValidationSchema = createCourseValidationSchema.partial();
 
 export const courseValidation = {
   createCourseValidationSchema,
