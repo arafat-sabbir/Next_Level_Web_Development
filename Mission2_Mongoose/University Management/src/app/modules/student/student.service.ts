@@ -1,3 +1,9 @@
+/**
+ * The StudentService module contains functions to interact with the database
+ * for operations related to students.
+ * @module services/student
+ */
+
 import mongoose from 'mongoose';
 import { StudentModel } from './student.model';
 import { UserModel } from '../user/user.model';
@@ -110,3 +116,4 @@ export {
   deleteSingleStudentFromDb,
   updateSingleStudentFromDb,
 };
+
