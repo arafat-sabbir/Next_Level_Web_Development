@@ -18,8 +18,8 @@ router.patch(
   validateRequest(courseValidation.updateCourseValidationSchema),
   CourseControllers.updateCourse
 );
-
-router.put('/assign-faculties/:courseId', CourseControllers.assignFacultiesToCourse);
 router.delete('/delete-course/:id', CourseControllers.deleteCourse);
+router.put('/assign-faculties/:courseId', CourseControllers.assignFacultiesToCourse);
+router.put('/remove-faculties/:courseId', CourseControllers.removeFacultiesFromCourse);
 
 export const courseRoutes = router;

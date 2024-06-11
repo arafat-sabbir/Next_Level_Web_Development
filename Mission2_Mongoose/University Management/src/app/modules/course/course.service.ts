@@ -108,7 +108,7 @@ const deleteCourseFromDB = async (id: string) => {
   const deletedCourse = await CourseModel.findByIdAndUpdate(id, { isDeleted: true }, { new: true });
 
   if (!deletedCourse) {
-    throw new AppError(400, 'Failed to delete student');
+    throw new AppError(400, 'Failed to delete Faculty');
   }
   return deletedCourse;
 };
@@ -118,8 +118,19 @@ const assignFacultiesToCourseIntoDb = async (
 ) => {
   const result = await CourseFacultyModel.findByIdAndUpdate(
     id,
-    { $addToSet: { faculties: { $each: payload } } },
+    { course: id, $addToSet: { faculties: { $each: payload } } },
     { upsert: true, new: true }
+  );
+  return result;
+};
+const removeFacultiesToCourseFromDb = async (
+  id: string,
+  payload: Omit<TCourseFaculty, 'course'>
+) => {
+  const result = await CourseFacultyModel.findByIdAndUpdate(
+    id,
+    { $pull: { faculties: { $in: payload } } },
+    { new: true }
   );
   return result;
 };
@@ -130,4 +141,5 @@ export const CourseServices = {
   createCourseIntoDb,
   updateCourseIntoDB,
   assignFacultiesToCourseIntoDb,
+  removeFacultiesToCourseFromDb,
 };
