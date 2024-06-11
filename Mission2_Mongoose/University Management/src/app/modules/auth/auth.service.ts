@@ -1,7 +1,8 @@
+import config from '../../config';
 import AppError from '../../errors/AppError';
 import { UserModel } from '../user/user.model';
 import { TLogin } from './auth.interface';
-import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 
 const loginUser = async (payload: TLogin) => {
   const user = await UserModel.isUserExistByCustomId(payload.id);
@@ -20,7 +21,16 @@ const loginUser = async (payload: TLogin) => {
   if (!passwordMatched) {
     throw new AppError(400, 'Wrong Password');
   }
-  return { access: 'Granted' };
+
+  const accessToken = jwt.sign(
+    { id: user.id, role: user.role },
+    config.jwt_access_secret as string,
+    {
+      expiresIn: '10d',
+    }
+  );
+
+  return { accessToken, needsPasswordChange: user.needsPasswordChange };
 };
 
 export const authService = { loginUser };
