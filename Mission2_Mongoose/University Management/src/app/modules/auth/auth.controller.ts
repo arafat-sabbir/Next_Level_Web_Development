@@ -1,4 +1,4 @@
-import sendResponse from 'src/app/utils/sendResponse';
+import sendResponse from '../../utils/sendResponse';
 import catchAsync from '../../utils/catchAsync';
 import { authService } from './auth.service';
 

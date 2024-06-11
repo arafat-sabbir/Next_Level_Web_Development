@@ -2,8 +2,8 @@ import { z } from 'zod';
 
 const loginValidationSchema = z.object({
   body: z.object({
-    id: z.string().email(),
-    password: z.string().min(8),
+    id: z.string(),
+    password: z.string(),
   }),
 });
 export const AuthValidations = {

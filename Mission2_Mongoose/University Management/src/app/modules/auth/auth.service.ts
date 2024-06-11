@@ -2,7 +2,7 @@ import { UserModel } from '../user/user.model';
 import { TLogin } from './auth.interface';
 
 const loginUser = async (payload: TLogin) => {
-  const result = await UserModel.findById(payload.id);
+  const result = await UserModel.findOne({ id: payload.id });
   if (!result) {
     throw new Error('User not found');
   }
