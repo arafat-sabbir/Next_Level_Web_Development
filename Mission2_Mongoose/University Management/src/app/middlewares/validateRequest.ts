@@ -1,24 +1,14 @@
 import { NextFunction, Request, Response } from 'express';
 import { AnyZodObject } from 'zod';
+import catchAsync from '../utils/catchAsync';
 
-/**
- * Middleware to validate incoming request body using Zod schema.
- *
- * @param {AnyZodObject} schema - The Zod schema used for validation.
- * @returns {Function} - The middleware function.
- */
 const validateRequest = (schema: AnyZodObject) => {
-  return async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      // Parse the request body using the provided schema.
-      await schema.parseAsync({ body: req.body });
-      // Continue to the next middleware.
-      next();
-    } catch (error) {
-      // Pass the error to the next middleware if validation fails.
-      next(error);
-    }
-  };
+  return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    // Parse the request body using the provided schema.
+    await schema.parseAsync({ body: req.body });
+    // Continue to the next middleware.
+    next();
+  });
 };
 
 export default validateRequest;

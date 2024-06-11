@@ -1,6 +1,7 @@
 import catchAsync from '../../utils/catchAsync';
 import { AdminServices } from './admin.service';
 import sendResponse from '../../utils/sendResponse';
+import { Request } from 'express';
 
 const getSingleAdmin = catchAsync(async (req, res) => {
   const { id } = req.params;
@@ -13,6 +14,7 @@ const getSingleAdmin = catchAsync(async (req, res) => {
 });
 
 const getAllAdmins = catchAsync(async (req, res) => {
+  console.log(req?.user);
   const result = await AdminServices.getAllAdminsFromDB(req.query);
 
   sendResponse(res, {
