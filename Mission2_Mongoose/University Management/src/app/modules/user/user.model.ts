@@ -6,7 +6,7 @@ import config from '../../config/index';
 const userSchema = new Schema<TUser, TUserModel>(
   {
     id: { type: String, required: true },
-    password: { type: String, required: true },
+    password: { type: String, required: true, select: 0 },
     needsPasswordChange: { type: Boolean, default: true },
     role: { type: String, enum: ['admin', 'student', 'faculty'] },
     status: { type: String, enum: ['in-progress', 'blocked'], default: 'in-progress' },
