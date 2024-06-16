@@ -1,5 +1,5 @@
 import { FilterQuery, Query } from 'mongoose';
-
+//class queryBuilder to Build Query with pagination and other filter or skip
 class QueryBuilder<T> {
   public modelQuery: Query<T[], T>;
   public query: Record<string, unknown>;
