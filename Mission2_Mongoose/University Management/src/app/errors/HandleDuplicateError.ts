@@ -1,3 +1,5 @@
+//An Custom Error Handler For Handleing The Mongoose Duplicate Error
+
 import mongoose from 'mongoose';
 import { TErrorSources } from '../interface/error';
 
